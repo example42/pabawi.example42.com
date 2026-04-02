@@ -66,14 +66,20 @@
       <li><a href="#hiera">Hiera</a></li>
       <li><a href="#ansible">Ansible</a></li>
       <li><a href="#ssh">SSH</a></li>
+      <li><a href="#proxmox">Proxmox</a></li>
+      <li><a href="#aws">AWS EC2</a></li>
     </ul>
 
     <h4>Using Pabawi</h4>
     <ul>
       <li><a href="#inventory">Inventory</a></li>
       <li><a href="#execution">Command Execution</a></li>
+      <li><a href="#lifecycle">VM Lifecycle</a></li>
       <li><a href="#history">Execution History</a></li>
+      <li><a href="#node-journal">Node Journal</a></li>
       <li><a href="#rbac">RBAC &amp; Permissions</a></li>
+      <li><a href="#status-dashboard">Status Dashboard</a></li>
+      <li><a href="#setup-wizards">Setup Wizards</a></li>
       <li><a href="#expert-mode">Expert Mode</a></li>
     </ul>
 
@@ -256,14 +262,16 @@
       <p>Pabawi uses a plugin architecture. Each integration is independent — disable what you don't need, and the rest continue working. The <code class="inline">IntegrationManager</code> fans out inventory and fact requests to all enabled plugins and merges results using a priority system.</p>
 
       <table class="docs-table">
-        <thead><tr><th>Plugin</th><th>Priority</th><th>Execution</th><th>Inventory</th></tr></thead>
+        <thead><tr><th>Plugin</th><th>Priority</th><th>Execution</th><th>Inventory</th><th>Provisioning</th></tr></thead>
         <tbody>
-          <tr><td>SSH</td><td>50 (highest)</td><td>✓</td><td>✓</td></tr>
-          <tr><td>Puppetserver</td><td>20</td><td>—</td><td>✓</td></tr>
-          <tr><td>Bolt</td><td>10</td><td>✓</td><td>✓</td></tr>
-          <tr><td>PuppetDB</td><td>10</td><td>—</td><td>✓</td></tr>
-          <tr><td>Ansible</td><td>8</td><td>✓</td><td>✓</td></tr>
-          <tr><td>Hiera</td><td>6</td><td>—</td><td>—</td></tr>
+          <tr><td>SSH</td><td>50 (highest)</td><td>✓</td><td>✓</td><td>—</td></tr>
+          <tr><td>Puppetserver</td><td>20</td><td>—</td><td>✓</td><td>—</td></tr>
+          <tr><td>Bolt</td><td>10</td><td>✓</td><td>✓</td><td>—</td></tr>
+          <tr><td>PuppetDB</td><td>10</td><td>—</td><td>✓</td><td>—</td></tr>
+          <tr><td>Ansible</td><td>8</td><td>✓</td><td>✓</td><td>—</td></tr>
+          <tr><td>Hiera</td><td>6</td><td>—</td><td>—</td><td>—</td></tr>
+          <tr><td>Proxmox</td><td>—</td><td>—</td><td>✓</td><td>✓ VMs &amp; LXC</td></tr>
+          <tr><td>AWS</td><td>—</td><td>—</td><td>✓</td><td>✓ EC2</td></tr>
         </tbody>
       </table>
     </div>
@@ -375,6 +383,87 @@
       </div>
     </div>
 
+    <div class="docs-section" id="proxmox">
+      <h2>Proxmox Integration <span style="font-size:.72rem;background:rgba(251,146,60,.15);border:1px solid rgba(251,146,60,.35);color:#fb923c;padding:.15rem .55rem;border-radius:100px;vertical-align:middle;font-weight:700;letter-spacing:.04em">v0.9+</span></h2>
+      <p>Proxmox integration provides VM and LXC container inventory discovery, lifecycle management (start/stop/reboot/destroy), and provisioning — all alongside your existing config management tools.</p>
+
+      <h3>Authentication</h3>
+      <p>Token-based authentication is recommended. Create a dedicated API token in the Proxmox UI under <strong>Datacenter → Permissions → API Tokens</strong> with appropriate privileges.</p>
+
+      <table class="docs-table">
+        <thead><tr><th>Variable</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>PROXMOX_ENABLED</td><td>true / false</td></tr>
+          <tr><td>PROXMOX_HOST</td><td>Proxmox host (e.g. <code class="inline">proxmox.example.com</code>)</td></tr>
+          <tr><td>PROXMOX_PORT</td><td>API port (default: 8006)</td></tr>
+          <tr><td>PROXMOX_TOKEN</td><td>API token: <code class="inline">user@realm!tokenid=uuid</code> (recommended)</td></tr>
+          <tr><td>PROXMOX_USERNAME</td><td>Username for password auth (alternative to token)</td></tr>
+          <tr><td>PROXMOX_PASSWORD</td><td>Password for password auth</td></tr>
+          <tr><td>PROXMOX_REALM</td><td>Auth realm (default: pam)</td></tr>
+          <tr><td>PROXMOX_SSL_VERIFY</td><td>Verify SSL certificate (default: true)</td></tr>
+          <tr><td>PROXMOX_TIMEOUT</td><td>API timeout in ms (default: 30000)</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Capabilities</h3>
+      <ul>
+        <li><strong>Inventory</strong> — auto-discover all VMs and containers; group by node, status (running/stopped), or type (QEMU/LXC)</li>
+        <li><strong>Lifecycle</strong> — start, stop, shutdown, reboot, suspend (VMs), resume, destroy — with confirmation dialogs for destructive actions</li>
+        <li><strong>Provisioning</strong> — create new VMs and LXC containers with full parameter control via the Manage tab</li>
+        <li><strong>Facts</strong> — CPU, memory, disk, network config, status, uptime</li>
+      </ul>
+
+      <p>Node identifiers follow the format <code class="inline">proxmox:&lt;node&gt;:&lt;vmid&gt;</code> (e.g. <code class="inline">proxmox:pve1:101</code>).</p>
+
+      <div class="docs-callout warn">
+        <p><strong>IAM note:</strong> The Proxmox API token must have at minimum <code class="inline">VM.PowerMgmt</code>, <code class="inline">VM.Audit</code>, and <code class="inline">VM.Allocate</code> privileges on the relevant resource pools.</p>
+      </div>
+    </div>
+
+    <div class="docs-section" id="aws">
+      <h2>AWS EC2 Integration <span style="font-size:.72rem;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.35);color:#f59e0b;padding:.15rem .55rem;border-radius:100px;vertical-align:middle;font-weight:700;letter-spacing:.04em">v0.10+</span></h2>
+      <p>AWS integration discovers EC2 instances across one or more regions, manages their lifecycle, and provisions new instances — making cloud VMs first-class citizens alongside your on-prem fleet.</p>
+
+      <table class="docs-table">
+        <thead><tr><th>Variable</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>AWS_ENABLED</td><td>true / false</td></tr>
+          <tr><td>AWS_ACCESS_KEY_ID</td><td>IAM access key ID</td></tr>
+          <tr><td>AWS_SECRET_ACCESS_KEY</td><td>IAM secret access key</td></tr>
+          <tr><td>AWS_DEFAULT_REGION</td><td>Default region (e.g. <code class="inline">us-east-1</code>)</td></tr>
+          <tr><td>AWS_REGIONS</td><td>JSON array of regions to discover (e.g. <code class="inline">["us-east-1","eu-west-1"]</code>)</td></tr>
+          <tr><td>AWS_PROFILE</td><td>AWS CLI profile name (alternative to access keys)</td></tr>
+          <tr><td>AWS_SESSION_TOKEN</td><td>STS session token for temporary credentials</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Required IAM Permissions</h3>
+      <div class="docs-code">
+        <pre>
+<span class="c-cmt"># Minimum IAM permissions required</span>
+ec2:DescribeInstances, DescribeRegions, DescribeInstanceTypes
+ec2:DescribeImages, DescribeVpcs, DescribeSubnets
+ec2:DescribeSecurityGroups, DescribeKeyPairs
+ec2:RunInstances, StartInstances, StopInstances
+ec2:RebootInstances, TerminateInstances
+sts:GetCallerIdentity</pre>
+      </div>
+
+      <h3>Capabilities</h3>
+      <ul>
+        <li><strong>Inventory</strong> — discover EC2 instances across all configured regions; group by region, VPC, or tags</li>
+        <li><strong>Lifecycle</strong> — start, stop, reboot, terminate instances from the Manage tab</li>
+        <li><strong>Provisioning</strong> — launch new EC2 instances (AMI, instance type, VPC, subnet, security groups, key pair)</li>
+        <li><strong>Health check</strong> — validates credentials via <code class="inline">sts:GetCallerIdentity</code> on startup</li>
+      </ul>
+
+      <p>Node identifiers follow the format <code class="inline">aws:&lt;region&gt;:&lt;instance-id&gt;</code> (e.g. <code class="inline">aws:us-east-1:i-0abc1234</code>).</p>
+
+      <div class="docs-callout tip">
+        <p><strong>Tip:</strong> If running Pabawi on an EC2 instance, you can omit <code class="inline">AWS_ACCESS_KEY_ID</code> and <code class="inline">AWS_SECRET_ACCESS_KEY</code> and attach an IAM instance profile instead — the default AWS credential chain is used.</p>
+      </div>
+    </div>
+
     <!-- ===== USING PABAWI ===== -->
     <div class="docs-section" id="inventory">
       <h2>Inventory</h2>
@@ -401,6 +490,27 @@
       <p>Executions are queued and limited to <code class="inline">CONCURRENT_EXECUTION_LIMIT</code> parallel operations to prevent resource exhaustion. Queue status is visible in the UI.</p>
     </div>
 
+    <div class="docs-section" id="lifecycle">
+      <h2>VM Lifecycle Management</h2>
+      <p>For Proxmox and AWS nodes, the node detail page includes a <strong>Manage tab</strong> with lifecycle controls. Available actions depend on the current resource state:</p>
+
+      <table class="docs-table">
+        <thead><tr><th>State</th><th>Available Actions</th></tr></thead>
+        <tbody>
+          <tr><td>stopped</td><td>Start, Destroy</td></tr>
+          <tr><td>running</td><td>Stop, Shutdown, Reboot, Suspend (VMs), Destroy</td></tr>
+          <tr><td>suspended</td><td>Resume, Destroy</td></tr>
+        </tbody>
+      </table>
+
+      <ul>
+        <li>Destructive actions (Destroy, Terminate) require an explicit confirmation dialog</li>
+        <li>Each action requires the corresponding RBAC permission (e.g. <code class="inline">manage:vms</code>)</li>
+        <li>All lifecycle actions are recorded in the Node Journal and Execution History</li>
+        <li>Real-time status updates are shown during the operation</li>
+      </ul>
+    </div>
+
     <div class="docs-section" id="history">
       <h2>Execution History</h2>
       <p>Every command, task, and package operation is stored in the SQLite database. The History page shows all runs with:</p>
@@ -409,6 +519,17 @@
         <li>Full command/task name and parameters</li>
         <li>Per-node success/failure status with output</li>
         <li>One-click <strong>re-run</strong> — replay any historical execution instantly</li>
+      </ul>
+    </div>
+
+    <div class="docs-section" id="node-journal">
+      <h2>Node Journal <span style="font-size:.72rem;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.3);color:var(--green);padding:.15rem .55rem;border-radius:100px;vertical-align:middle;font-weight:700;letter-spacing:.04em">v0.9+</span></h2>
+      <p>Every node has a personal journal — a chronological timeline of every action, lifecycle event, and operation that has touched it. Access it from the node detail page.</p>
+      <ul>
+        <li>Records command executions, task runs, package operations, and VM lifecycle actions</li>
+        <li>Timestamps, actor (which user), integration used, and outcome per entry</li>
+        <li>Persisted in SQLite — survives restarts, gives you long-term per-node history</li>
+        <li>Complements Execution History (which is fleet-wide) with a node-centric view</li>
       </ul>
     </div>
 
@@ -422,6 +543,42 @@
         <li><strong>Permissions</strong> — granular: <code class="inline">execute:commands</code>, <code class="inline">read:inventory</code>, <code class="inline">manage:users</code>, etc.</li>
       </ul>
       <p>The default admin account is created on first start using <code class="inline">DEFAULT_ADMIN_USERNAME</code> and <code class="inline">DEFAULT_ADMIN_PASSWORD</code>. Change the password immediately after first login.</p>
+    </div>
+
+    <div class="docs-section" id="status-dashboard">
+      <h2>Integration Status Dashboard <span style="font-size:.72rem;background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.3);color:var(--brand-light);padding:.15rem .55rem;border-radius:100px;vertical-align:middle;font-weight:700;letter-spacing:.04em">v1.0</span></h2>
+      <p>The Integration Status Dashboard gives you a real-time health view of every configured integration. Access it from the main navigation under <strong>Settings → Integrations</strong>.</p>
+      <ul>
+        <li>Shows enabled/disabled status and connection health for each integration</li>
+        <li><strong>Test Connection</strong> buttons for Proxmox and AWS — trigger an on-demand health check</li>
+        <li>Displays last-checked timestamp and error details if a connection fails</li>
+        <li>Read-only — configuration is managed via <code class="inline">.env</code>, not the UI</li>
+        <li>Append <code class="inline">?refresh=true</code> to the API health endpoint to force a fresh check bypassing cache</li>
+      </ul>
+      <div class="docs-callout tip">
+        <p><strong>Tip:</strong> Use the Status Dashboard after editing your <code class="inline">.env</code> and restarting to quickly confirm all integrations connected successfully before handing the system to the team.</p>
+      </div>
+    </div>
+
+    <div class="docs-section" id="setup-wizards">
+      <h2>Setup Wizards &amp; .env Snippets <span style="font-size:.72rem;background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.3);color:var(--brand-light);padding:.15rem .55rem;border-radius:100px;vertical-align:middle;font-weight:700;letter-spacing:.04em">v1.0</span></h2>
+      <p>Each integration has an in-browser setup wizard that guides you through configuration step by step and generates a ready-to-paste <code class="inline">.env</code> snippet.</p>
+
+      <h3>How it works</h3>
+      <ol style="padding-left:1.5rem;color:var(--text-muted);font-size:.95rem;line-height:2;margin-bottom:1rem">
+        <li>Navigate to <strong>Settings → Setup Guides</strong> and choose an integration</li>
+        <li>Fill in the form fields (host, credentials, paths, options)</li>
+        <li>The wizard generates the corresponding <code class="inline">.env</code> variable block</li>
+        <li>Click <strong>Copy to clipboard</strong> and paste into your <code class="inline">backend/.env</code></li>
+        <li>Restart Pabawi — the integration activates immediately</li>
+      </ol>
+
+      <div class="docs-callout">
+        <p><strong>Security note:</strong> Sensitive values (passwords, tokens, secret keys) are masked in the generated snippet preview. The snippet is never stored in the database — it exists only in your browser session until you copy it.</p>
+      </div>
+
+      <h3>Why .env only?</h3>
+      <p>From v1.0 onward, <code class="inline">backend/.env</code> is the single source of truth for all integration configuration. Previous versions allowed database-stored config overrides; this has been removed to simplify the mental model — what's in <code class="inline">.env</code> is exactly what runs.</p>
     </div>
 
     <div class="docs-section" id="expert-mode">
@@ -525,7 +682,22 @@
 <span class="c-cmt"># ── Ansible ───────────────────────────────────────</span>
 <span class="c-key">ANSIBLE_ENABLED</span>=<span class="c-val">false</span>
 <span class="c-key">ANSIBLE_PROJECT_PATH</span>=<span class="c-val">/path/to/ansible-project</span>
-<span class="c-key">ANSIBLE_INVENTORY_PATH</span>=<span class="c-val">/path/to/inventory</span></pre>
+<span class="c-key">ANSIBLE_INVENTORY_PATH</span>=<span class="c-val">/path/to/inventory</span>
+
+<span class="c-cmt"># ── Proxmox ───────────────────────────────────────</span>
+<span class="c-key">PROXMOX_ENABLED</span>=<span class="c-val">false</span>
+<span class="c-key">PROXMOX_HOST</span>=<span class="c-val">proxmox.example.com</span>
+<span class="c-key">PROXMOX_PORT</span>=<span class="c-val">8006</span>
+<span class="c-key">PROXMOX_TOKEN</span>=<span class="c-val">user@realm!tokenid=uuid</span>
+<span class="c-key">PROXMOX_SSL_VERIFY</span>=<span class="c-val">true</span>
+<span class="c-key">PROXMOX_TIMEOUT</span>=<span class="c-val">30000</span>
+
+<span class="c-cmt"># ── AWS ───────────────────────────────────────────</span>
+<span class="c-key">AWS_ENABLED</span>=<span class="c-val">false</span>
+<span class="c-key">AWS_ACCESS_KEY_ID</span>=<span class="c-val">AKIAIOSFODNN7EXAMPLE</span>
+<span class="c-key">AWS_SECRET_ACCESS_KEY</span>=<span class="c-val">wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY</span>
+<span class="c-key">AWS_DEFAULT_REGION</span>=<span class="c-val">us-east-1</span>
+<span class="c-key">AWS_REGIONS</span>=<span class="c-val">["us-east-1","eu-west-1"]</span></pre>
       </div>
     </div>
 
