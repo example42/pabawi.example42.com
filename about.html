@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Pabawi</title>
+  <meta name="description" content="About Pabawi — an open source infrastructure management platform by Alessandro Franceschi and example42." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <rect width="28" height="28" rx="7" fill="url(#lga)"/>
+        <path d="M7 14l5 5 9-9" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs><linearGradient id="lga" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs>
+      </svg>
+      Pabawi
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="docs.html">Docs</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="https://github.com/example42/pabawi" target="_blank" rel="noopener">GitHub ↗</a></li>
+      <li><a href="https://github.com/example42/pabawi/releases" target="_blank" rel="noopener" class="nav-cta">Get Started</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Menu">
+      <svg width="22" height="22" fill="none" viewBox="0 0 22 22"><path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="about-hero">
+  <div class="container">
+    <div class="hero-badge" style="margin:0 auto 1.5rem">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><circle cx="6" cy="6" r="6"/></svg>
+      Open Source · Apache 2.0
+    </div>
+    <h1><span class="gradient-text">About Pabawi</span></h1>
+    <p>A free, open-source platform for managing classic infrastructure — built to bring Puppet, Ansible, Bolt, and SSH together in a single, polished web interface.</p>
+  </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<div class="container" style="padding-bottom:5rem">
+  <div class="about-content">
+
+    <!-- What is Pabawi -->
+    <div class="about-section" id="what">
+      <h2>What is Pabawi?</h2>
+      <p>
+        Pabawi — <em>Classic Infrastructures Command &amp; Control Awesomeness</em> — is a unified web interface and REST API for infrastructure management, inventory discovery, and remote command execution.
+      </p>
+      <p>
+        It aggregates data from multiple infrastructure tools through a plugin architecture: Puppet, Bolt, PuppetDB, Puppetserver, Hiera, Ansible, and SSH all become first-class integrations, each contributing inventory, facts, or execution capabilities to a single, consistent interface.
+      </p>
+      <p>
+        The goal is simple: teams managing "classic infrastructure" — bare metal servers, VMs, physical networks — deserve tooling that's as polished, powerful, and pleasant to use as the SaaS platforms built for cloud-native environments. Pabawi is that tool, free and self-hosted.
+      </p>
+    </div>
+
+    <!-- Philosophy -->
+    <div class="about-section" id="philosophy">
+      <h2>Philosophy</h2>
+      <div class="about-values">
+        <div class="value-card">
+          <div class="vi">🔌</div>
+          <h4>Plugin-first</h4>
+          <p>Every integration is optional and independent. Disable what you don't have. The platform degrades gracefully — if one tool goes down, the rest keep working.</p>
+        </div>
+        <div class="value-card">
+          <div class="vi">🏠</div>
+          <h4>Self-hosted by design</h4>
+          <p>No SaaS, no telemetry, no license server. Your infra data stays in your network. A single Docker container is all you need to deploy.</p>
+        </div>
+        <div class="value-card">
+          <div class="vi">🔐</div>
+          <h4>Security without friction</h4>
+          <p>RBAC, command whitelisting, JWT auth, and full audit trails — real security controls that don't get in the way of getting work done.</p>
+        </div>
+        <div class="value-card">
+          <div class="vi">⚡</div>
+          <h4>Speed and transparency</h4>
+          <p>Real-time streaming output. Expert mode that exposes exact CLI commands. No magic, no black boxes — you always know what's happening.</p>
+        </div>
+        <div class="value-card">
+          <div class="vi">🧩</div>
+          <h4>Meets you where you are</h4>
+          <p>Use Puppet? Great. Ansible? Great. Just SSH? Also great. Mix everything? That's the point. No migration required.</p>
+        </div>
+        <div class="value-card">
+          <div class="vi">🌱</div>
+          <h4>Open and extensible</h4>
+          <p>Apache 2.0 licensed. Plugin architecture makes adding new integrations straightforward. Contributions welcome.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- The project -->
+    <div class="about-section" id="project">
+      <h2>The Project</h2>
+      <p>
+        Pabawi is a project by <a href="https://example42.com" target="_blank" rel="noopener">example42</a>, coordinated by <strong>Alessandro Franceschi</strong>. The codebase is developed with AI assistance — a deliberate exploration of what's possible when experienced infrastructure engineering judgment guides AI-generated code.
+      </p>
+      <p>
+        The project started with a clear problem: open-source Puppet users had no equivalent to the Puppet Enterprise console. PuppetDB stores rich data, Bolt can execute anything, Hiera holds your config — but there was no single web UI tying it all together without an enterprise license. Pabawi fills that gap, and keeps expanding to cover the full breadth of classical infrastructure tooling.
+      </p>
+      <p>
+        Version history reflects deliberate, steady progress: from a Bolt-only prototype in v0.1 to a full RBAC-enabled, multi-integration platform in v0.8, with Proxmox support, scheduling, and cloud integrations on the near horizon.
+      </p>
+    </div>
+
+    <!-- Person card -->
+    <div class="about-section" id="author">
+      <h2>Coordinated by</h2>
+      <div class="person-card">
+        <div class="person-avatar">AF</div>
+        <div class="person-info">
+          <h3>Alessandro Franceschi</h3>
+          <span class="person-role">Founder, example42 · Infrastructure Engineer</span>
+          <p>
+            Alessandro has been working in infrastructure, automation, and configuration management for over two decades. He is the founder of example42, a consultancy and open-source project home specialising in Puppet, DevOps, and infrastructure tooling.
+          </p>
+          <p>
+            He is a long-time contributor to the Puppet ecosystem, author of numerous open-source Puppet modules and tools, and a speaker at infrastructure and DevOps conferences. Pabawi is his latest project: a modern web interface for the classical infrastructure world he knows deeply.
+          </p>
+          <div class="person-links">
+            <a href="https://example42.com" target="_blank" rel="noopener" class="person-link">
+              <svg width="14" height="14" fill="none" viewBox="0 0 14 14"><path d="M7 1.5C4 1.5 1.5 4 1.5 7S4 12.5 7 12.5 12.5 10 12.5 7 10 1.5 7 1.5zm0 1a5 5 0 010 10A5 5 0 017 2.5z" fill="currentColor"/><path d="M7 1.5c-1.1 0-2.2 1.8-2.2 5.5S5.9 12.5 7 12.5s2.2-1.8 2.2-5.5S8.1 1.5 7 1.5z" fill="currentColor" opacity=".4"/><path d="M2 7h10M7 2v10" stroke="currentColor" stroke-width="1"/></svg>
+              example42.com
+            </a>
+            <a href="https://github.com/example42" target="_blank" rel="noopener" class="person-link">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+              @example42
+            </a>
+            <a href="https://github.com/example42/pabawi" target="_blank" rel="noopener" class="person-link">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"/></svg>
+              Pabawi on GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- example42 -->
+    <div class="about-section" id="example42">
+      <h2>example42</h2>
+      <p>
+        <a href="https://example42.com" target="_blank" rel="noopener">example42</a> is an infrastructure consultancy and open-source project home founded by Alessandro Franceschi. The name comes from <em>The Hitchhiker's Guide to the Galaxy</em> — 42 being the answer to life, the universe, and everything, and <em>example</em> reflecting a commitment to clear, educational, real-world demonstrations of infrastructure tooling.
+      </p>
+      <p>
+        example42 has published dozens of Puppet modules, contributed to the open-source infrastructure community, and run the <strong>Tiny Puppet</strong> project — a lightweight, opinionated approach to Puppet module development. Pabawi is the latest chapter: a full web platform for the infrastructure teams that example42 has worked with for years.
+      </p>
+    </div>
+
+    <!-- Tech stack -->
+    <div class="about-section" id="tech">
+      <h2>Built With</h2>
+      <p>Pabawi is built on a modern, production-grade stack — chosen for reliability, developer experience, and long-term maintainability:</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem">
+        <div>
+          <h3 style="font-size:.9rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1rem">Frontend</h3>
+          <div class="tech-chips">
+            <span class="tech-chip">Svelte 5</span>
+            <span class="tech-chip">TypeScript</span>
+            <span class="tech-chip">Tailwind CSS</span>
+            <span class="tech-chip">Vite</span>
+            <span class="tech-chip">SSE Streaming</span>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-size:.9rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1rem">Backend</h3>
+          <div class="tech-chips">
+            <span class="tech-chip">Node.js 20+</span>
+            <span class="tech-chip">Express</span>
+            <span class="tech-chip">TypeScript</span>
+            <span class="tech-chip">SQLite</span>
+            <span class="tech-chip">Zod</span>
+            <span class="tech-chip">JWT</span>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-size:.9rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1rem">Infrastructure</h3>
+          <div class="tech-chips">
+            <span class="tech-chip">Docker</span>
+            <span class="tech-chip">Multi-arch</span>
+            <span class="tech-chip">Kubernetes-ready</span>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-size:.9rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1rem">Testing</h3>
+          <div class="tech-chips">
+            <span class="tech-chip">Vitest</span>
+            <span class="tech-chip">Playwright E2E</span>
+            <span class="tech-chip">fast-check</span>
+            <span class="tech-chip">supertest</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- License -->
+    <div class="about-section" id="license">
+      <h2>License</h2>
+      <p>
+        Pabawi is released under the <strong>Apache License 2.0</strong> — a permissive open-source license that allows use, modification, and distribution in both open-source and commercial contexts, with attribution.
+      </p>
+      <p>
+        Full license text: <a href="https://github.com/example42/pabawi/blob/main/LICENSE" target="_blank" rel="noopener">github.com/example42/pabawi/blob/main/LICENSE</a>
+      </p>
+    </div>
+
+    <!-- Contributing -->
+    <div class="about-section" id="contributing">
+      <h2>Contributing</h2>
+      <p>Contributions are welcome. Whether it's a bug report, documentation improvement, new integration plugin, or frontend enhancement — the project is built to be extended.</p>
+      <ul>
+        <li><a href="https://github.com/example42/pabawi/issues" target="_blank" rel="noopener">Open an issue</a> for bugs or feature requests</li>
+        <li>Fork the repo and submit a pull request for code contributions</li>
+        <li>See <a href="https://github.com/example42/pabawi/blob/main/docs/development.md" target="_blank" rel="noopener">docs/development.md</a> for the development guide</li>
+        <li>New integration plugins follow the <code class="inline">BasePlugin</code> pattern — well-documented and straightforward to implement</li>
+      </ul>
+
+      <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap">
+        <a href="https://github.com/example42/pabawi" target="_blank" rel="noopener" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          View on GitHub
+        </a>
+        <a href="https://github.com/example42/pabawi/issues/new" target="_blank" rel="noopener" class="btn btn-outline">Open an Issue</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="font-size:1.1rem">
+          <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="7" fill="url(#lg3)"/>
+            <path d="M7 14l5 5 9-9" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs><linearGradient id="lg3" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs>
+          </svg>
+          Pabawi
+        </a>
+        <p>Classic Infrastructures Command &amp; Control Awesomeness. Open source, self-hosted, Apache 2.0.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="index.html#features">Features</a></li>
+          <li><a href="index.html#usecases">Use Cases</a></li>
+          <li><a href="index.html#install">Installation</a></li>
+          <li><a href="index.html#roadmap">Roadmap</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Docs</h4>
+        <ul>
+          <li><a href="docs.html#quickstart">Quick Start</a></li>
+          <li><a href="docs.html#configuration">Configuration</a></li>
+          <li><a href="docs.html#integrations">Integrations</a></li>
+          <li><a href="docs.html#api">API Reference</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Project</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="https://example42.com" target="_blank" rel="noopener">example42.com</a></li>
+          <li><a href="https://github.com/example42/pabawi" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://hub.docker.com/r/example42/pabawi" target="_blank" rel="noopener">Docker Hub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025–2026 <a href="https://example42.com" target="_blank" rel="noopener">example42</a> · Alessandro Franceschi · Apache 2.0 License</p>
+      <div class="footer-links">
+        <a href="https://github.com/example42/pabawi/blob/main/LICENSE" target="_blank" rel="noopener">License</a>
+        <a href="https://github.com/example42/pabawi/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing</a>
+        <a href="https://github.com/example42/pabawi/issues" target="_blank" rel="noopener">Issues</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

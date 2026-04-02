@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pabawi — Classic Infrastructures Command &amp; Control</title>
+  <meta name="description" content="Pabawi is a unified web interface for infrastructure management, command execution, and inventory — integrating Puppet, Bolt, Ansible, SSH, Hiera and more." />
+  <meta property="og:title" content="Pabawi — Classic Infrastructures Command & Control" />
+  <meta property="og:description" content="A unified web interface for managing classic infrastructure: Puppet, Bolt, Ansible, PuppetDB, Hiera, and SSH in one place." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+
+<!-- ======================== NAV ======================== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <rect width="28" height="28" rx="7" fill="url(#lg)"/>
+        <path d="M7 14l5 5 9-9" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs>
+          <linearGradient id="lg" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#6366f1"/><stop offset="1" stop-color="#22d3ee"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      Pabawi
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="docs.html">Docs</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="https://github.com/example42/pabawi" target="_blank" rel="noopener">GitHub ↗</a></li>
+      <li><a href="https://github.com/example42/pabawi/releases" target="_blank" rel="noopener" class="nav-cta">Get Started</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Menu">
+      <svg width="22" height="22" fill="none" viewBox="0 0 22 22">
+        <path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ======================== HERO ======================== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <!-- Left -->
+      <div>
+        <div class="hero-badge fade-up">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><circle cx="6" cy="6" r="6"/></svg>
+          v0.8 · Apache 2.0 · Open Source
+        </div>
+        <h1 class="hero-title fade-up delay-1">
+          Classic Infra<br/>
+          <span class="gradient-text">Command &amp; Control</span>
+        </h1>
+        <p class="hero-desc fade-up delay-2">
+          Pabawi is a unified web interface for infrastructure management, inventory discovery, and remote execution — bringing Puppet, Bolt, Ansible, PuppetDB, Hiera, and SSH together in one polished dashboard.
+        </p>
+        <div class="hero-actions fade-up delay-3">
+          <a href="docs.html#quickstart" class="btn btn-primary">
+            <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M3 8l4 4 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Quick Start
+          </a>
+          <a href="https://github.com/example42/pabawi" target="_blank" rel="noopener" class="btn btn-outline">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            View on GitHub
+          </a>
+        </div>
+        <div class="hero-stat-row fade-up delay-4">
+          <div class="hero-stat"><div class="num">6+</div><div class="lbl">Integrations</div></div>
+          <div class="hero-stat"><div class="num">0.8</div><div class="lbl">Latest</div></div>
+          <div class="hero-stat"><div class="num">∞</div><div class="lbl">Nodes</div></div>
+          <div class="hero-stat"><div class="num">Free</div><div class="lbl">Apache 2.0</div></div>
+        </div>
+      </div>
+
+      <!-- Right — terminal mockup -->
+      <div class="hero-visual fade-up delay-2">
+        <div class="hero-terminal">
+          <div class="terminal-bar">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+            <span class="terminal-title">pabawi — command execution</span>
+          </div>
+          <div class="terminal-body">
+            <div><span class="t-prompt">❯ </span><span class="t-cmd">pabawi inventory</span></div>
+            <div><span class="t-out">Fetching from 4 sources</span> <span class="t-dim">[bolt, puppetdb, ansible, ssh]</span></div>
+            <div>&nbsp;</div>
+            <div><span class="t-label">NODES  </span><span class="t-success">●</span> <span class="t-node">web01.prod</span> <span class="t-dim">ssh · 192.168.1.10</span></div>
+            <div><span class="t-label">       </span><span class="t-success">●</span> <span class="t-node">db01.prod</span>  <span class="t-dim">puppet · 192.168.1.20</span></div>
+            <div><span class="t-label">       </span><span class="t-success">●</span> <span class="t-node">app01.stg</span>  <span class="t-dim">bolt · 10.0.0.5</span></div>
+            <div><span class="t-label">       </span><span class="t-warn">◉</span> <span class="t-node">legacy03</span>   <span class="t-dim">ssh · 10.0.0.9</span></div>
+            <div>&nbsp;</div>
+            <div><span class="t-prompt">❯ </span><span class="t-cmd">pabawi exec "uptime" --targets web01.prod,db01.prod</span></div>
+            <div><span class="t-success">✓ web01.prod</span><span class="t-dim">  up 42 days, 3:21,  load avg: 0.12</span></div>
+            <div><span class="t-success">✓ db01.prod &nbsp;</span><span class="t-dim"> up 18 days, 11:04, load avg: 0.05</span></div>
+            <div>&nbsp;</div>
+            <div class="t-last-line"><span class="t-prompt">❯ </span><span class="t-dim">_</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== INTEGRATIONS STRIP ======================== -->
+<div class="integrations-strip">
+  <div class="container">
+    <div class="strip-label">Integrations</div>
+    <div class="strip-logos">
+      <span class="integration-chip"><span class="chip-dot" style="background:#f97316"></span> Puppet / OpenVox</span>
+      <span class="integration-chip"><span class="chip-dot" style="background:#6366f1"></span> Bolt</span>
+      <span class="integration-chip"><span class="chip-dot" style="background:#ef4444"></span> Ansible</span>
+      <span class="integration-chip"><span class="chip-dot" style="background:#22d3ee"></span> PuppetDB</span>
+      <span class="integration-chip"><span class="chip-dot" style="background:#a78bfa"></span> Puppetserver</span>
+      <span class="integration-chip"><span class="chip-dot" style="background:#34d399"></span> Hiera</span>
+      <span class="integration-chip"><span class="chip-dot" style="background:#94a3b8"></span> SSH</span>
+      <span class="integration-chip" style="opacity:.55"><span class="chip-dot" style="background:#fb923c"></span> Proxmox <span style="font-size:.7rem;color:var(--text-dim)">coming soon</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== FEATURES ======================== -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-eyebrow">Features</div>
+    <h2 class="section-heading">Everything your infra team needs</h2>
+    <p class="section-sub">A full-featured platform that replaces ad-hoc scripts and multiple dashboards with a single, secure, team-ready interface.</p>
+
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(99,102,241,.15)">🗂️</div>
+        <h3>Multi-Source Inventory</h3>
+        <p>Aggregate nodes from Bolt, PuppetDB, Ansible, and SSH into a unified, searchable inventory. Supports groups, filtering by transport, and virtual-scroll for thousands of nodes.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(34,211,238,.12)">⚡</div>
+        <h3>Real-Time Command Execution</h3>
+        <p>Run ad-hoc commands and Bolt tasks on single nodes or groups, with live streaming output via Server-Sent Events. Queue management ensures no resource contention.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(52,211,153,.12)">🔐</div>
+        <h3>RBAC Authentication</h3>
+        <p>Full role-based access control with multiple users, JWT sessions, per-operation permissions, and an audit trail for every action. Lock down your infra properly.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(251,146,60,.12)">📦</div>
+        <h3>Package Management</h3>
+        <p>Install, update, and remove packages across your entire fleet from a single interface, with real-time progress and per-node results.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(167,139,250,.12)">📊</div>
+        <h3>Puppet Reports &amp; Catalogs</h3>
+        <p>Browse Puppet run reports with metrics and resource change diffs, inspect compiled catalogs, visualize resource relationships, and compare environments side-by-side.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(99,102,241,.15)">🌲</div>
+        <h3>Hiera Data Browser</h3>
+        <p>Navigate your hierarchical configuration data, resolve keys per-node with fact interpolation, and analyse which Hiera keys are referenced by your Puppet classes.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(34,211,238,.12)">📜</div>
+        <h3>Execution History</h3>
+        <p>Full history of every command, task, and package operation — with output preserved and one-click re-execution. Know who ran what, when, and on which nodes.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(52,211,153,.12)">🔍</div>
+        <h3>Node Facts &amp; Details</h3>
+        <p>Deep-dive into any node: OS, hardware, Puppet class list, custom facts, and recent run history — all in a single, well-organised node detail view.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(251,146,60,.12)">🛡️</div>
+        <h3>Command Whitelist Security</h3>
+        <p>Restrict which commands operators may run via a configurable whitelist. Prevent accidental or malicious execution of dangerous operations without full ACL complexity.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(167,139,250,.12)">🔌</div>
+        <h3>Plugin Architecture</h3>
+        <p>Every integration is a plugin. Disable what you don't use, and the platform degrades gracefully — if PuppetDB is down, Bolt keeps working. No single point of failure.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(99,102,241,.15)">🐳</div>
+        <h3>Docker-Ready</h3>
+        <p>Single-container deployment with multi-arch support (amd64, arm64). Mount your existing Bolt project, certs, and control-repo — up and running in minutes.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(34,211,238,.12)">🧑‍💻</div>
+        <h3>Expert Mode</h3>
+        <p>Toggle deep-debug mode to see full CLI command lines, API responses, and frontend logging — invaluable for troubleshooting and understanding exactly what's happening under the hood.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================== USE CASES ======================== -->
+<section class="section" id="usecases" style="background:rgba(17,24,39,.4)">
+  <div class="container">
+    <div class="section-eyebrow">Use Cases</div>
+    <h2 class="section-heading">Built for real-world infra work</h2>
+    <p class="section-sub">Whether you run 10 servers or 10,000, Pabawi fits the way infrastructure teams actually work.</p>
+
+    <div class="usecases-grid">
+
+      <div class="usecase-card">
+        <div class="usecase-number">01</div>
+        <h3>Unified Puppet Operations Center</h3>
+        <p>Replace the Puppet Enterprise console with a free, open-source alternative. Browse inventory, trigger runs, inspect reports, diff catalogs across environments, and explore Hiera data — without an enterprise license.</p>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-number">02</div>
+        <h3>Multi-Tool Infrastructure Management</h3>
+        <p>You use Puppet for config management and Ansible for one-off automation and SSH for legacy boxes. Pabawi gives you a single pane of glass: one inventory, one execution history, one access control layer.</p>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-number">03</div>
+        <h3>Secure Team Command Execution</h3>
+        <p>Let junior operators run approved, whitelisted commands without giving them shell access. Capture every action in the audit trail. Re-run historical operations with one click during incident response.</p>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-number">04</div>
+        <h3>Homelab &amp; Small Team Web UI</h3>
+        <p>SSH-only mode works perfectly for homelabbers who just want a web frontend for their servers. No Puppet, no Ansible required — configure SSH hosts and you're done.</p>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-number">05</div>
+        <h3>Incident Response &amp; Patch Management</h3>
+        <p>Run a targeted command across a hundred nodes in seconds, watch live streaming output, then push a package update to affected hosts — all from the same interface, with the full run logged automatically.</p>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-number">06</div>
+        <h3>Configuration Drift Investigation</h3>
+        <p>Use the Puppet catalog diff to compare what a node is compiling in production vs. staging. Correlate Hiera data with node facts. Spot where configuration has drifted before it becomes a problem.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================== TARGET AUDIENCE ======================== -->
+<section class="section audience-section" id="audience">
+  <div class="container">
+    <div class="section-eyebrow">Who it's for</div>
+    <h2 class="section-heading">Made for classic infrastructure teams</h2>
+    <p class="section-sub">If you manage bare metal, VMs, or any "traditional" infrastructure — Pabawi was built with you in mind.</p>
+
+    <div class="audience-grid">
+
+      <div class="persona-card">
+        <div class="persona-emoji">🧑‍🔧</div>
+        <h3>Sysadmins</h3>
+        <p>Stop SSH-ing into boxes individually. Run commands fleet-wide, check node facts, manage packages, and keep a full audit trail — all from the browser.</p>
+        <div class="persona-tags">
+          <span class="persona-tag">SSH</span>
+          <span class="persona-tag">Commands</span>
+          <span class="persona-tag">Packages</span>
+          <span class="persona-tag">Audit</span>
+        </div>
+      </div>
+
+      <div class="persona-card">
+        <div class="persona-emoji">🤖</div>
+        <h3>Puppet / OpenVox Teams</h3>
+        <p>Get the Puppet Enterprise console experience on Open Source Puppet. Full reports, catalog inspection, Hiera browser, and cert management — no license required.</p>
+        <div class="persona-tags">
+          <span class="persona-tag">PuppetDB</span>
+          <span class="persona-tag">Hiera</span>
+          <span class="persona-tag">Catalogs</span>
+          <span class="persona-tag">Reports</span>
+        </div>
+      </div>
+
+      <div class="persona-card">
+        <div class="persona-emoji">⚙️</div>
+        <h3>DevOps Engineers</h3>
+        <p>Tie together Puppet, Ansible, Bolt, and SSH under one interface. Delegate execution to team members with RBAC. Integrate into your workflow via the REST API.</p>
+        <div class="persona-tags">
+          <span class="persona-tag">RBAC</span>
+          <span class="persona-tag">Ansible</span>
+          <span class="persona-tag">Bolt</span>
+          <span class="persona-tag">API</span>
+        </div>
+      </div>
+
+      <div class="persona-card">
+        <div class="persona-emoji">🏠</div>
+        <h3>Homelabbers</h3>
+        <p>Just want a web UI for your home servers? Enable SSH-only mode and get a clean, full-featured dashboard without any Puppet infrastructure needed.</p>
+        <div class="persona-tags">
+          <span class="persona-tag">SSH</span>
+          <span class="persona-tag">Simple</span>
+          <span class="persona-tag">Self-hosted</span>
+        </div>
+      </div>
+
+      <div class="persona-card">
+        <div class="persona-emoji">🔒</div>
+        <h3>Security-Conscious Teams</h3>
+        <p>Command whitelisting, RBAC, JWT auth, audit trail, and no cloud dependency — Pabawi runs entirely on-premises, so your infra data never leaves your network.</p>
+        <div class="persona-tags">
+          <span class="persona-tag">On-Prem</span>
+          <span class="persona-tag">Whitelist</span>
+          <span class="persona-tag">Audit</span>
+          <span class="persona-tag">JWT</span>
+        </div>
+      </div>
+
+      <div class="persona-card">
+        <div class="persona-emoji">🧪</div>
+        <h3>Mixed Environments</h3>
+        <p>Half your fleet runs Puppet, half runs Ansible, and there are 20 legacy boxes that only speak SSH? Pabawi gives you one unified view across all of them.</p>
+        <div class="persona-tags">
+          <span class="persona-tag">Hybrid</span>
+          <span class="persona-tag">Multi-tool</span>
+          <span class="persona-tag">Legacy</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================== QUICK INSTALL ======================== -->
+<section class="section install-section" id="install">
+  <div class="container">
+    <div class="section-eyebrow">Installation</div>
+    <h2 class="section-heading">Up and running in minutes</h2>
+    <p class="section-sub">Interactive setup script handles prerequisites, config generation, and first start. Or use Docker for the fastest path.</p>
+
+    <div class="install-grid">
+      <!-- Code blocks -->
+      <div>
+        <div class="code-block" style="margin-bottom:1rem">
+          <div class="code-header">
+            <span class="code-lang">Quick Start</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <div class="code-body">
+            <pre><span class="c-prompt">$ </span><span class="c-cmd">git clone https://github.com/example42/pabawi</span>
+<span class="c-prompt">$ </span><span class="c-cmd">cd pabawi</span>
+<span class="c-prompt">$ </span><span class="c-cmd">./scripts/setup.sh</span></pre>
+          </div>
+        </div>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">Docker</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <div class="code-body">
+            <pre><span class="c-comment"># Mount your local config directory</span>
+<span class="c-prompt">$ </span><span class="c-cmd">docker run -d \</span>
+  --name pabawi \
+  -p 127.0.0.1:3000:3000 \
+  -v "$(pwd)/pabawi:/pabawi" \
+  --env-file ".env" \
+  example42/pabawi:latest</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Steps -->
+      <div>
+        <ol class="install-steps">
+          <li class="install-step">
+            <span class="step-num">1</span>
+            <div class="step-text">
+              <h4>Clone the repo</h4>
+              <p>Node.js 20+ and npm 9+ are the only hard requirements for the bare-metal path.</p>
+            </div>
+          </li>
+          <li class="install-step">
+            <span class="step-num">2</span>
+            <div class="step-text">
+              <h4>Run the setup script</h4>
+              <p>The interactive wizard detects your installed tools, generates <code class="inline">backend/.env</code> with smart defaults, installs dependencies, and optionally starts the app.</p>
+            </div>
+          </li>
+          <li class="install-step">
+            <span class="step-num">3</span>
+            <div class="step-text">
+              <h4>Open the browser</h4>
+              <p>Navigate to <code class="inline">http://localhost:3000</code>. Your nodes appear automatically as integrations are discovered.</p>
+            </div>
+          </li>
+          <li class="install-step">
+            <span class="step-num">4</span>
+            <div class="step-text">
+              <h4>Enable integrations</h4>
+              <p>Each plugin is configured via environment variables. Start with SSH, add Bolt and Puppet as needed. See the <a href="docs.html">Docs</a> for per-integration guides.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== ROADMAP ======================== -->
+<section class="section" style="background:rgba(17,24,39,.4)" id="roadmap">
+  <div class="container">
+    <div class="section-eyebrow">Roadmap</div>
+    <h2 class="section-heading">What's coming next</h2>
+    <p class="section-sub">Pabawi is actively developed. Here's what's in the pipeline.</p>
+
+    <div class="roadmap-grid">
+
+      <div class="roadmap-card">
+        <span class="roadmap-status status-active">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>
+          In Development
+        </span>
+        <h3>Proxmox Integration</h3>
+        <p>VM and container lifecycle management alongside your existing config management tools.</p>
+      </div>
+
+      <div class="roadmap-card">
+        <span class="roadmap-status status-active">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>
+          In Development
+        </span>
+        <h3>Node Journal</h3>
+        <p>A per-node event journal tracking all actions, changes, and state transitions over time.</p>
+      </div>
+
+      <div class="roadmap-card">
+        <span class="roadmap-status status-planned">◎ Planned</span>
+        <h3>Scheduled Executions</h3>
+        <p>Run commands and tasks on a schedule — cron-like automation from the web interface.</p>
+      </div>
+
+      <div class="roadmap-card">
+        <span class="roadmap-status status-planned">◎ Planned</span>
+        <h3>Icinga / CheckMK</h3>
+        <p>Monitoring context alongside your configuration management — see health inline with infra data.</p>
+      </div>
+
+      <div class="roadmap-card">
+        <span class="roadmap-status status-planned">◎ Planned</span>
+        <h3>Terraform / OpenTofu</h3>
+        <p>Infrastructure provisioning in the same interface as configuration management and execution.</p>
+      </div>
+
+      <div class="roadmap-card">
+        <span class="roadmap-status status-planned">◎ Planned</span>
+        <h3>AWS / Azure</h3>
+        <p>Hybrid environments spanning on-prem and cloud — manage everything from one place.</p>
+      </div>
+
+      <div class="roadmap-card">
+        <span class="roadmap-status status-done">✓ Released v0.8</span>
+        <h3>RBAC &amp; SSH Integration</h3>
+        <p>Role-based access control, multiple users, SSH-first mode, and inventory groups.</p>
+      </div>
+
+      <div class="roadmap-card">
+        <span class="roadmap-status status-done">✓ Released v0.7</span>
+        <h3>Ansible Integration</h3>
+        <p>Ad-hoc commands, playbook execution, and inventory discovery via Ansible.</p>
+      </div>
+
+      <div class="roadmap-card">
+        <span class="roadmap-status status-done">✓ Released v0.4</span>
+        <h3>Hiera Data Browser</h3>
+        <p>Hierarchical config exploration, key analysis, and class-aware lookups.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================== CTA BANNER ======================== -->
+<section class="section-sm" style="background:linear-gradient(135deg,rgba(99,102,241,.18) 0%,rgba(34,211,238,.08) 100%);border-top:1px solid rgba(99,102,241,.2);border-bottom:1px solid rgba(99,102,241,.15);">
+  <div class="container" style="text-align:center">
+    <h2 style="margin-bottom:.75rem">Ready to tame your infrastructure?</h2>
+    <p style="margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto;">Free, open source, self-hosted. No SaaS, no telemetry, no license fees.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+      <a href="https://github.com/example42/pabawi" target="_blank" rel="noopener" class="btn btn-primary">Star on GitHub</a>
+      <a href="docs.html" class="btn btn-outline">Read the Docs</a>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== FOOTER ======================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="font-size:1.1rem">
+          <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="7" fill="url(#lg2)"/>
+            <path d="M7 14l5 5 9-9" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs><linearGradient id="lg2" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs>
+          </svg>
+          Pabawi
+        </a>
+        <p>Classic Infrastructures Command &amp; Control Awesomeness. Open source, self-hosted, MIT-friendly.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="index.html#features">Features</a></li>
+          <li><a href="index.html#usecases">Use Cases</a></li>
+          <li><a href="index.html#install">Installation</a></li>
+          <li><a href="index.html#roadmap">Roadmap</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Docs</h4>
+        <ul>
+          <li><a href="docs.html#quickstart">Quick Start</a></li>
+          <li><a href="docs.html#configuration">Configuration</a></li>
+          <li><a href="docs.html#integrations">Integrations</a></li>
+          <li><a href="docs.html#api">API Reference</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Project</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="https://github.com/example42/pabawi" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://github.com/example42/pabawi/releases" target="_blank" rel="noopener">Releases</a></li>
+          <li><a href="https://hub.docker.com/r/example42/pabawi" target="_blank" rel="noopener">Docker Hub</a></li>
+          <li><a href="https://github.com/example42/pabawi/issues" target="_blank" rel="noopener">Issues</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025–2026 <a href="https://example42.com" target="_blank" rel="noopener">example42</a> · Alessandro Franceschi · Apache 2.0 License</p>
+      <div class="footer-links">
+        <a href="https://github.com/example42/pabawi/blob/main/LICENSE" target="_blank" rel="noopener">License</a>
+        <a href="https://github.com/example42/pabawi/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing</a>
+        <a href="https://github.com/example42/pabawi/issues" target="_blank" rel="noopener">Issues</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

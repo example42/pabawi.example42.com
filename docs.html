@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Docs — Pabawi</title>
+  <meta name="description" content="Pabawi documentation: quick start, configuration, integrations, API reference, and deployment guides." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <rect width="28" height="28" rx="7" fill="url(#lgd)"/>
+        <path d="M7 14l5 5 9-9" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs><linearGradient id="lgd" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs>
+      </svg>
+      Pabawi
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="docs.html" class="active">Docs</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="https://github.com/example42/pabawi" target="_blank" rel="noopener">GitHub ↗</a></li>
+      <li><a href="https://github.com/example42/pabawi/releases" target="_blank" rel="noopener" class="nav-cta">Get Started</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Menu">
+      <svg width="22" height="22" fill="none" viewBox="0 0 22 22"><path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- DOCS LAYOUT -->
+<div class="docs-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="docs-sidebar">
+    <h4>Getting Started</h4>
+    <ul>
+      <li><a href="#quickstart" class="active">Quick Start</a></li>
+      <li><a href="#prerequisites">Prerequisites</a></li>
+      <li><a href="#manual-setup">Manual Setup</a></li>
+      <li><a href="#docker">Docker Deployment</a></li>
+    </ul>
+
+    <h4>Configuration</h4>
+    <ul>
+      <li><a href="#configuration">Overview</a></li>
+      <li><a href="#core-config">Core Settings</a></li>
+      <li><a href="#auth-config">Authentication</a></li>
+    </ul>
+
+    <h4>Integrations</h4>
+    <ul>
+      <li><a href="#integrations">Overview</a></li>
+      <li><a href="#bolt">Bolt</a></li>
+      <li><a href="#puppetdb">PuppetDB</a></li>
+      <li><a href="#puppetserver">Puppetserver</a></li>
+      <li><a href="#hiera">Hiera</a></li>
+      <li><a href="#ansible">Ansible</a></li>
+      <li><a href="#ssh">SSH</a></li>
+    </ul>
+
+    <h4>Using Pabawi</h4>
+    <ul>
+      <li><a href="#inventory">Inventory</a></li>
+      <li><a href="#execution">Command Execution</a></li>
+      <li><a href="#history">Execution History</a></li>
+      <li><a href="#rbac">RBAC &amp; Permissions</a></li>
+      <li><a href="#expert-mode">Expert Mode</a></li>
+    </ul>
+
+    <h4>Reference</h4>
+    <ul>
+      <li><a href="#api">API Reference</a></li>
+      <li><a href="#env-vars">Environment Variables</a></li>
+      <li><a href="#troubleshooting">Troubleshooting</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="docs-content">
+
+    <h1>Documentation</h1>
+    <p class="doc-subtitle">Everything you need to install, configure, and use Pabawi to manage your infrastructure.</p>
+
+    <!-- ===== QUICK START ===== -->
+    <div class="docs-section" id="quickstart">
+      <h2>Quick Start</h2>
+      <p>The fastest way to get Pabawi running is with the interactive setup script. It handles prerequisite checks, config file generation, dependency installation, and first launch.</p>
+
+      <div class="docs-code">
+        <div class="code-header" style="display:flex;justify-content:space-between;padding:.5rem 1rem;background:rgba(31,41,55,.6);border-bottom:1px solid var(--border);">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre>
+<span class="c-prompt">$ </span><span class="c-cmd">git clone https://github.com/example42/pabawi</span>
+<span class="c-prompt">$ </span><span class="c-cmd">cd pabawi</span>
+<span class="c-prompt">$ </span><span class="c-cmd">./scripts/setup.sh</span></pre>
+      </div>
+
+      <p>The setup wizard will:</p>
+      <ol style="padding-left:1.5rem;color:var(--text-muted);font-size:.95rem;line-height:2;margin-bottom:1rem">
+        <li>Check for Node.js 20+, npm 9+, and optionally Bolt, Ansible, Puppet CLIs</li>
+        <li>Generate <code class="inline">backend/.env</code> with smart defaults based on detected tools and SSL certs</li>
+        <li>Run <code class="inline">npm run install:all</code></li>
+        <li>Ask whether to start in dev mode, full-stack mode, or exit</li>
+      </ol>
+
+      <p>Once running, open <code class="inline">http://localhost:3000</code> in your browser.</p>
+
+      <div class="docs-callout tip">
+        <p><strong>Tip:</strong> You don't need Puppet, Bolt, or Ansible to get started. Enable SSH integration only and Pabawi works as a standalone web UI for your servers.</p>
+      </div>
+    </div>
+
+    <!-- ===== PREREQUISITES ===== -->
+    <div class="docs-section" id="prerequisites">
+      <h2>Prerequisites</h2>
+      <p>Hard requirements (always needed):</p>
+      <ul>
+        <li><strong>Node.js 20+</strong> and <strong>npm 9+</strong> — or use the Docker image which bundles everything</li>
+      </ul>
+      <p>Soft requirements (only needed for specific integrations):</p>
+      <ul>
+        <li><strong>Bolt CLI</strong> — for Bolt integration (task/command execution via Bolt)</li>
+        <li><strong>Ansible CLI</strong> — for Ansible integration</li>
+        <li><strong>Puppet/OpenVox agent</strong> — provides SSL certs for PuppetDB and Puppetserver integrations</li>
+        <li><strong>Control repo</strong> — for Hiera integration (local path to your Puppet control repository)</li>
+        <li><strong>SSH access</strong> — configured SSH keys/config for SSH integration</li>
+      </ul>
+    </div>
+
+    <!-- ===== MANUAL SETUP ===== -->
+    <div class="docs-section" id="manual-setup">
+      <h2>Manual Setup</h2>
+      <p>If you prefer to configure things by hand:</p>
+
+      <div class="docs-code">
+        <div class="code-header" style="display:flex;justify-content:space-between;padding:.5rem 1rem;background:rgba(31,41,55,.6);border-bottom:1px solid var(--border);">
+          <span class="code-lang">bash</span><button class="copy-btn">Copy</button>
+        </div>
+        <pre>
+<span class="c-prompt">$ </span><span class="c-cmd">git clone https://github.com/example42/pabawi && cd pabawi</span>
+<span class="c-prompt">$ </span><span class="c-cmd">npm run install:all</span>
+<span class="c-prompt">$ </span><span class="c-cmd">cp backend/.env.example backend/.env</span>
+<span class="c-cmt"># Edit backend/.env with your settings</span>
+
+<span class="c-cmt"># Development mode (two terminals):</span>
+<span class="c-prompt">$ </span><span class="c-cmd">npm run dev:backend    </span><span class="c-cmt"># port 3000</span>
+<span class="c-prompt">$ </span><span class="c-cmd">npm run dev:frontend   </span><span class="c-cmt"># port 5173, proxies API to 3000</span>
+
+<span class="c-cmt"># Or build frontend and serve everything from backend:</span>
+<span class="c-prompt">$ </span><span class="c-cmd">npm run dev:fullstack   </span><span class="c-cmt"># port 3000</span></pre>
+      </div>
+    </div>
+
+    <!-- ===== DOCKER ===== -->
+    <div class="docs-section" id="docker">
+      <h2>Docker Deployment</h2>
+      <p>Pabawi ships as a single container image (<code class="inline">example42/pabawi</code>) supporting amd64 and arm64.</p>
+
+      <div class="docs-code">
+        <div class="code-header" style="display:flex;justify-content:space-between;padding:.5rem 1rem;background:rgba(31,41,55,.6);border-bottom:1px solid var(--border);">
+          <span class="code-lang">bash</span><button class="copy-btn">Copy</button>
+        </div>
+        <pre>
+<span class="c-cmt"># Create a directory to hold all Pabawi data</span>
+<span class="c-prompt">$ </span><span class="c-cmd">mkdir pabawi && cd pabawi</span>
+
+<span class="c-cmt"># Create your .env (see environment variables section)</span>
+<span class="c-prompt">$ </span><span class="c-cmd">vi .env</span>
+
+<span class="c-cmt"># Run the container</span>
+<span class="c-prompt">$ </span><span class="c-cmd">docker run -d \</span>
+  --name pabawi \
+  --user "$(id -u):1001" \
+  -p 127.0.0.1:3000:3000 \
+  -v "$(pwd):/pabawi" \
+  --env-file ".env" \
+  example42/pabawi:latest</pre>
+      </div>
+
+      <p>Mount points inside the container:</p>
+      <table class="docs-table">
+        <thead><tr><th>Path</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>/pabawi/data</td><td>SQLite database storage</td></tr>
+          <tr><td>/pabawi/certs</td><td>SSL certs for PuppetDB/Puppetserver</td></tr>
+          <tr><td>/pabawi/control-repo</td><td>Puppet control repo for Hiera</td></tr>
+          <tr><td>/pabawi/bolt-project</td><td>Bolt project directory</td></tr>
+        </tbody>
+      </table>
+
+      <div class="docs-callout warn">
+        <p><strong>Note:</strong> All paths in <code class="inline">.env</code> are relative to the container's filesystem, not your host.</p>
+      </div>
+    </div>
+
+    <!-- ===== CONFIGURATION ===== -->
+    <div class="docs-section" id="configuration">
+      <h2>Configuration</h2>
+      <p>All configuration lives in <code class="inline">backend/.env</code>. Use <code class="inline">backend/.env.example</code> as a reference. Never commit <code class="inline">.env</code> to version control.</p>
+      <p>The <code class="inline">ConfigService</code> wraps all environment variables with Zod validation — missing required vars cause a clear startup error rather than a silent runtime failure.</p>
+    </div>
+
+    <div class="docs-section" id="core-config">
+      <h2>Core Settings</h2>
+
+      <table class="docs-table">
+        <thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>PORT</td><td>3000</td><td>HTTP server port</td></tr>
+          <tr><td>HOST</td><td>0.0.0.0</td><td>Bind address</td></tr>
+          <tr><td>LOG_LEVEL</td><td>info</td><td>debug / info / warn / error</td></tr>
+          <tr><td>DATABASE_PATH</td><td>./data/pabawi.db</td><td>SQLite database file path</td></tr>
+          <tr><td>CONCURRENT_EXECUTION_LIMIT</td><td>5</td><td>Max parallel command executions</td></tr>
+          <tr><td>COMMAND_WHITELIST_ENABLED</td><td>true</td><td>Enable/disable command whitelist</td></tr>
+          <tr><td>COMMAND_WHITELIST</td><td>(see below)</td><td>Comma-separated list of allowed commands</td></tr>
+          <tr><td>CACHE_INVENTORY_TTL</td><td>30</td><td>Inventory cache TTL (seconds)</td></tr>
+          <tr><td>CACHE_FACTS_TTL</td><td>300</td><td>Facts cache TTL (seconds)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="docs-section" id="auth-config">
+      <h2>Authentication</h2>
+
+      <table class="docs-table">
+        <thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>AUTH_ENABLED</td><td>true</td><td>Enable JWT authentication</td></tr>
+          <tr><td>JWT_SECRET</td><td>—</td><td><strong>Required.</strong> Secret key for JWT signing (min 32 chars)</td></tr>
+          <tr><td>JWT_EXPIRY</td><td>24h</td><td>Token expiry duration</td></tr>
+          <tr><td>DEFAULT_ADMIN_USERNAME</td><td>admin</td><td>Initial admin account username</td></tr>
+          <tr><td>DEFAULT_ADMIN_PASSWORD</td><td>—</td><td>Initial admin password (change on first login)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="docs-callout warn">
+        <p><strong>Security:</strong> Always set a strong <code class="inline">JWT_SECRET</code>. Run <code class="inline">openssl rand -hex 32</code> to generate one. Never reuse this value across environments.</p>
+      </div>
+    </div>
+
+    <!-- ===== INTEGRATIONS ===== -->
+    <div class="docs-section" id="integrations">
+      <h2>Integrations Overview</h2>
+      <p>Pabawi uses a plugin architecture. Each integration is independent — disable what you don't need, and the rest continue working. The <code class="inline">IntegrationManager</code> fans out inventory and fact requests to all enabled plugins and merges results using a priority system.</p>
+
+      <table class="docs-table">
+        <thead><tr><th>Plugin</th><th>Priority</th><th>Execution</th><th>Inventory</th></tr></thead>
+        <tbody>
+          <tr><td>SSH</td><td>50 (highest)</td><td>✓</td><td>✓</td></tr>
+          <tr><td>Puppetserver</td><td>20</td><td>—</td><td>✓</td></tr>
+          <tr><td>Bolt</td><td>10</td><td>✓</td><td>✓</td></tr>
+          <tr><td>PuppetDB</td><td>10</td><td>—</td><td>✓</td></tr>
+          <tr><td>Ansible</td><td>8</td><td>✓</td><td>✓</td></tr>
+          <tr><td>Hiera</td><td>6</td><td>—</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="docs-section" id="bolt">
+      <h2>Bolt Integration</h2>
+      <p>Bolt provides command execution, task execution, and inventory discovery. Pabawi spawns the Bolt CLI directly — your existing Bolt project and inventory are used as-is.</p>
+
+      <table class="docs-table">
+        <thead><tr><th>Variable</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>BOLT_ENABLED</td><td>true / false</td></tr>
+          <tr><td>BOLT_PROJECT_PATH</td><td>Absolute path to your Bolt project directory</td></tr>
+          <tr><td>BOLT_COMMAND_TIMEOUT</td><td>Execution timeout in seconds (default: 120)</td></tr>
+          <tr><td>BOLT_INVENTORY_FILE</td><td>Path to inventory.yaml (default: auto-detected)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="docs-callout">
+        <p><strong>Note:</strong> The Bolt user must have read access to the project directory and network access to target nodes. Bolt tasks are automatically discovered from the project's <code class="inline">modules/</code> directory.</p>
+      </div>
+    </div>
+
+    <div class="docs-section" id="puppetdb">
+      <h2>PuppetDB Integration</h2>
+      <p>PuppetDB provides rich inventory, node facts, Puppet run reports, and event data. Supports both Puppet Enterprise and Open Source Puppet / OpenVox.</p>
+
+      <table class="docs-table">
+        <thead><tr><th>Variable</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>PUPPETDB_ENABLED</td><td>true / false</td></tr>
+          <tr><td>PUPPETDB_URL</td><td>PuppetDB URL (e.g. <code class="inline">https://puppet.example.com:8081</code>)</td></tr>
+          <tr><td>PUPPETDB_SSL_CERT</td><td>Path to client SSL certificate (.pem)</td></tr>
+          <tr><td>PUPPETDB_SSL_KEY</td><td>Path to client SSL private key (.pem)</td></tr>
+          <tr><td>PUPPETDB_SSL_CA</td><td>Path to CA certificate</td></tr>
+          <tr><td>PUPPETDB_TOKEN</td><td>PE RBAC token (alternative to SSL certs)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="docs-section" id="puppetserver">
+      <h2>Puppetserver Integration</h2>
+      <p>Puppetserver integration provides node certificate listing, server status, and catalog compilation.</p>
+
+      <table class="docs-table">
+        <thead><tr><th>Variable</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>PUPPETSERVER_ENABLED</td><td>true / false</td></tr>
+          <tr><td>PUPPETSERVER_URL</td><td>Puppetserver URL (e.g. <code class="inline">https://puppet.example.com:8140</code>)</td></tr>
+          <tr><td>PUPPETSERVER_SSL_CERT</td><td>Path to client certificate</td></tr>
+          <tr><td>PUPPETSERVER_SSL_KEY</td><td>Path to client private key</td></tr>
+          <tr><td>PUPPETSERVER_SSL_CA</td><td>Path to CA certificate</td></tr>
+          <tr><td>PUPPETSERVER_ENVIRONMENT</td><td>Default environment (default: production)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="docs-section" id="hiera">
+      <h2>Hiera Integration</h2>
+      <p>Browse and resolve Hiera data hierarchically, with fact-based interpolation and class-aware key analysis. Requires a local copy of your Puppet control repository.</p>
+
+      <table class="docs-table">
+        <thead><tr><th>Variable</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>HIERA_ENABLED</td><td>true / false</td></tr>
+          <tr><td>HIERA_CONTROL_REPO_PATH</td><td>Absolute path to your control repo</td></tr>
+          <tr><td>HIERA_ENVIRONMENTS</td><td>Comma-separated environment list (default: production)</td></tr>
+          <tr><td>HIERA_DEFAULT_ENVIRONMENT</td><td>Default environment for lookups</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="docs-section" id="ansible">
+      <h2>Ansible Integration</h2>
+      <p>Run ad-hoc commands, execute playbooks, and discover inventory via Ansible. Pabawi spawns the Ansible CLI using your existing project.</p>
+
+      <table class="docs-table">
+        <thead><tr><th>Variable</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>ANSIBLE_ENABLED</td><td>true / false</td></tr>
+          <tr><td>ANSIBLE_PROJECT_PATH</td><td>Absolute path to your Ansible project</td></tr>
+          <tr><td>ANSIBLE_INVENTORY_PATH</td><td>Path to inventory file or directory</td></tr>
+          <tr><td>ANSIBLE_COMMAND_TIMEOUT</td><td>Execution timeout in seconds (default: 120)</td></tr>
+          <tr><td>ANSIBLE_VAULT_PASSWORD_FILE</td><td>Path to vault password file (optional)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="docs-section" id="ssh">
+      <h2>SSH Integration</h2>
+      <p>Direct SSH command execution — the simplest integration. Works standalone without any other tools. Ideal for homelabs or legacy nodes outside Puppet/Ansible.</p>
+
+      <table class="docs-table">
+        <thead><tr><th>Variable</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>SSH_ENABLED</td><td>true / false</td></tr>
+          <tr><td>SSH_CONFIG_PATH</td><td>Path to SSH config file (default: ~/.ssh/config)</td></tr>
+          <tr><td>SSH_DEFAULT_USER</td><td>Default SSH user for connections</td></tr>
+          <tr><td>SSH_DEFAULT_KEY_PATH</td><td>Default private key path</td></tr>
+          <tr><td>SSH_USE_SUDO</td><td>Prepend sudo to commands (default: false)</td></tr>
+          <tr><td>SSH_CONNECTION_TIMEOUT</td><td>Connection timeout in seconds (default: 10)</td></tr>
+          <tr><td>SSH_MAX_CONNECTIONS</td><td>Connection pool size (default: 10)</td></tr>
+          <tr><td>SSH_INVENTORY</td><td>Static host list (JSON array of host objects)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="docs-callout tip">
+        <p><strong>Tip:</strong> Set <code class="inline">SSH_INVENTORY</code> to a JSON array to define hosts when no other inventory source is configured: <code class="inline">SSH_INVENTORY=[{"name":"web01","host":"192.168.1.10"}]</code></p>
+      </div>
+    </div>
+
+    <!-- ===== USING PABAWI ===== -->
+    <div class="docs-section" id="inventory">
+      <h2>Inventory</h2>
+      <p>The Inventory page aggregates nodes from all enabled integrations. Each node shows its source integration (colour-coded), transport type, and connection address.</p>
+      <ul>
+        <li><strong>Search</strong> — type to filter by node name (300ms debounce)</li>
+        <li><strong>Filter by integration</strong> — show nodes from a single source</li>
+        <li><strong>Virtual scrolling</strong> — handles thousands of nodes without performance issues</li>
+        <li><strong>Groups</strong> — Bolt inventory groups and Ansible groups are preserved and browsable</li>
+        <li><strong>Node detail</strong> — click any node to see facts, classes, recent reports, and execution history</li>
+      </ul>
+    </div>
+
+    <div class="docs-section" id="execution">
+      <h2>Command Execution</h2>
+      <p>Select one or more target nodes, choose an integration (Bolt, Ansible, or SSH), enter your command or select a task, and execute. Output streams in real-time via SSE.</p>
+      <h3>Command Whitelist</h3>
+      <p>When <code class="inline">COMMAND_WHITELIST_ENABLED=true</code>, only commands matching the whitelist may be executed. The whitelist supports exact matches and glob patterns:</p>
+      <div class="docs-code">
+        <pre>
+<span class="c-key">COMMAND_WHITELIST</span>=<span class="c-val">uptime,hostname,df -h,free -m,systemctl status *,ps aux</span></pre>
+      </div>
+      <h3>Execution Queue</h3>
+      <p>Executions are queued and limited to <code class="inline">CONCURRENT_EXECUTION_LIMIT</code> parallel operations to prevent resource exhaustion. Queue status is visible in the UI.</p>
+    </div>
+
+    <div class="docs-section" id="history">
+      <h2>Execution History</h2>
+      <p>Every command, task, and package operation is stored in the SQLite database. The History page shows all runs with:</p>
+      <ul>
+        <li>Timestamp, duration, target nodes, integration used</li>
+        <li>Full command/task name and parameters</li>
+        <li>Per-node success/failure status with output</li>
+        <li>One-click <strong>re-run</strong> — replay any historical execution instantly</li>
+      </ul>
+    </div>
+
+    <div class="docs-section" id="rbac">
+      <h2>RBAC &amp; Permissions</h2>
+      <p>Pabawi includes a full role-based access control system:</p>
+      <ul>
+        <li><strong>Users</strong> — individual accounts with JWT authentication</li>
+        <li><strong>Roles</strong> — named sets of permissions (e.g. <em>operator</em>, <em>viewer</em>, <em>admin</em>)</li>
+        <li><strong>Groups</strong> — users grouped for easier role assignment</li>
+        <li><strong>Permissions</strong> — granular: <code class="inline">execute:commands</code>, <code class="inline">read:inventory</code>, <code class="inline">manage:users</code>, etc.</li>
+      </ul>
+      <p>The default admin account is created on first start using <code class="inline">DEFAULT_ADMIN_USERNAME</code> and <code class="inline">DEFAULT_ADMIN_PASSWORD</code>. Change the password immediately after first login.</p>
+    </div>
+
+    <div class="docs-section" id="expert-mode">
+      <h2>Expert Mode</h2>
+      <p>Toggle Expert Mode from the navigation bar to reveal:</p>
+      <ul>
+        <li>Full CLI command lines for every Bolt/Ansible/SSH operation</li>
+        <li>Raw API responses and timing information</li>
+        <li>Frontend debug logging in the browser console</li>
+        <li>Extended node detail data</li>
+      </ul>
+      <p>Expert Mode is per-session and does not require a page reload. Invaluable for debugging integration issues or verifying exactly what command is being run.</p>
+    </div>
+
+    <!-- ===== API ===== -->
+    <div class="docs-section" id="api">
+      <h2>API Reference</h2>
+      <p>Pabawi exposes a REST API at <code class="inline">/api/v1/</code>. All endpoints require a Bearer token when <code class="inline">AUTH_ENABLED=true</code>.</p>
+
+      <h3>Authentication</h3>
+      <div class="docs-code">
+        <pre>
+<span class="c-cmt"># Login and get a token</span>
+<span class="c-prompt">POST </span><span class="c-cmd">/api/v1/auth/login</span>
+<span class="c-cmt">Body: { "username": "admin", "password": "..." }</span>
+
+<span class="c-cmt"># Use the token in subsequent requests</span>
+<span class="c-prompt">GET  </span><span class="c-cmd">/api/v1/inventory</span>
+<span class="c-cmt">Header: Authorization: Bearer &lt;token&gt;</span></pre>
+      </div>
+
+      <h3>Key Endpoints</h3>
+      <table class="docs-table">
+        <thead><tr><th>Method + Path</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>GET /api/v1/inventory</td><td>List all nodes from all enabled integrations</td></tr>
+          <tr><td>GET /api/v1/inventory/:node</td><td>Get details and facts for a single node</td></tr>
+          <tr><td>POST /api/v1/execute/command</td><td>Run a command on target nodes</td></tr>
+          <tr><td>POST /api/v1/execute/task</td><td>Run a Bolt task on target nodes</td></tr>
+          <tr><td>GET /api/v1/executions</td><td>List execution history</td></tr>
+          <tr><td>GET /api/v1/executions/:id</td><td>Get a specific execution result</td></tr>
+          <tr><td>GET /api/v1/stream/:id</td><td>SSE stream for live execution output</td></tr>
+          <tr><td>GET /api/v1/reports</td><td>List Puppet run reports (PuppetDB required)</td></tr>
+          <tr><td>GET /api/v1/hiera/lookup</td><td>Resolve a Hiera key for a node</td></tr>
+          <tr><td>GET /api/v1/health</td><td>Integration health status</td></tr>
+          <tr><td>GET /api/v1/users</td><td>List users (admin only)</td></tr>
+          <tr><td>POST /api/v1/users</td><td>Create a user (admin only)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===== ENV VARS ===== -->
+    <div class="docs-section" id="env-vars">
+      <h2>Environment Variables</h2>
+      <p>Complete reference for all configuration variables. See <code class="inline">backend/.env.example</code> in the repo for the annotated template.</p>
+
+      <div class="docs-code">
+        <pre>
+<span class="c-cmt"># ── Core ──────────────────────────────────────────</span>
+<span class="c-key">PORT</span>=<span class="c-val">3000</span>
+<span class="c-key">HOST</span>=<span class="c-val">0.0.0.0</span>
+<span class="c-key">LOG_LEVEL</span>=<span class="c-val">info</span>
+<span class="c-key">DATABASE_PATH</span>=<span class="c-val">./data/pabawi.db</span>
+
+<span class="c-cmt"># ── Authentication ────────────────────────────────</span>
+<span class="c-key">AUTH_ENABLED</span>=<span class="c-val">true</span>
+<span class="c-key">JWT_SECRET</span>=<span class="c-val">your-secret-here-min-32-chars</span>
+<span class="c-key">DEFAULT_ADMIN_USERNAME</span>=<span class="c-val">admin</span>
+<span class="c-key">DEFAULT_ADMIN_PASSWORD</span>=<span class="c-val">changeme</span>
+
+<span class="c-cmt"># ── Execution ─────────────────────────────────────</span>
+<span class="c-key">CONCURRENT_EXECUTION_LIMIT</span>=<span class="c-val">5</span>
+<span class="c-key">COMMAND_WHITELIST_ENABLED</span>=<span class="c-val">true</span>
+<span class="c-key">COMMAND_WHITELIST</span>=<span class="c-val">uptime,hostname,df -h,free -m</span>
+
+<span class="c-cmt"># ── Bolt ──────────────────────────────────────────</span>
+<span class="c-key">BOLT_ENABLED</span>=<span class="c-val">false</span>
+<span class="c-key">BOLT_PROJECT_PATH</span>=<span class="c-val">/path/to/bolt-project</span>
+
+<span class="c-cmt"># ── SSH ───────────────────────────────────────────</span>
+<span class="c-key">SSH_ENABLED</span>=<span class="c-val">true</span>
+<span class="c-key">SSH_DEFAULT_USER</span>=<span class="c-val">ubuntu</span>
+<span class="c-key">SSH_DEFAULT_KEY_PATH</span>=<span class="c-val">~/.ssh/id_rsa</span>
+<span class="c-key">SSH_INVENTORY</span>=<span class="c-val">[{"name":"web01","host":"192.168.1.10"}]</span>
+
+<span class="c-cmt"># ── PuppetDB ──────────────────────────────────────</span>
+<span class="c-key">PUPPETDB_ENABLED</span>=<span class="c-val">false</span>
+<span class="c-key">PUPPETDB_URL</span>=<span class="c-val">https://puppet.example.com:8081</span>
+<span class="c-key">PUPPETDB_SSL_CERT</span>=<span class="c-val">/etc/puppetlabs/puppet/ssl/certs/node.pem</span>
+<span class="c-key">PUPPETDB_SSL_KEY</span>=<span class="c-val">/etc/puppetlabs/puppet/ssl/private_keys/node.pem</span>
+<span class="c-key">PUPPETDB_SSL_CA</span>=<span class="c-val">/etc/puppetlabs/puppet/ssl/certs/ca.pem</span>
+
+<span class="c-cmt"># ── Puppetserver ──────────────────────────────────</span>
+<span class="c-key">PUPPETSERVER_ENABLED</span>=<span class="c-val">false</span>
+<span class="c-key">PUPPETSERVER_URL</span>=<span class="c-val">https://puppet.example.com:8140</span>
+
+<span class="c-cmt"># ── Hiera ─────────────────────────────────────────</span>
+<span class="c-key">HIERA_ENABLED</span>=<span class="c-val">false</span>
+<span class="c-key">HIERA_CONTROL_REPO_PATH</span>=<span class="c-val">/path/to/control-repo</span>
+
+<span class="c-cmt"># ── Ansible ───────────────────────────────────────</span>
+<span class="c-key">ANSIBLE_ENABLED</span>=<span class="c-val">false</span>
+<span class="c-key">ANSIBLE_PROJECT_PATH</span>=<span class="c-val">/path/to/ansible-project</span>
+<span class="c-key">ANSIBLE_INVENTORY_PATH</span>=<span class="c-val">/path/to/inventory</span></pre>
+      </div>
+    </div>
+
+    <!-- ===== TROUBLESHOOTING ===== -->
+    <div class="docs-section" id="troubleshooting">
+      <h2>Troubleshooting</h2>
+
+      <h3>Inventory is empty</h3>
+      <p>Check that at least one integration is enabled (<code class="inline">*_ENABLED=true</code>) and that the CLI tools are on the PATH. Enable <code class="inline">LOG_LEVEL=debug</code> and check server logs. In the UI, toggle Expert Mode to see integration health status.</p>
+
+      <h3>Command execution fails</h3>
+      <ul>
+        <li>Verify the command is in the whitelist (or disable whitelist temporarily for testing)</li>
+        <li>Check that the Pabawi server has network access to target nodes</li>
+        <li>For SSH: verify key-based auth works from the Pabawi server manually</li>
+        <li>For Bolt: run the command manually with <code class="inline">bolt command run "..." --targets ...</code></li>
+      </ul>
+
+      <h3>PuppetDB SSL errors</h3>
+      <p>Ensure the certificate paths are correct and that the Pabawi server's certificate is signed by the same CA as PuppetDB. The pabawi process user must have read access to the key files.</p>
+
+      <h3>Docker permission errors</h3>
+      <p>Use <code class="inline">--user "$(id -u):1001"</code> to run the container as your user (group 1001 is the node user inside the container). Ensure mounted volumes are owned by that UID.</p>
+
+      <div class="docs-callout">
+        <p><strong>Still stuck?</strong> Open a <a href="https://github.com/example42/pabawi/issues" target="_blank" rel="noopener">GitHub issue</a> with your Pabawi version, sanitized config, reproduction steps, and the error from <code class="inline">LOG_LEVEL=debug</code> output.</p>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none;padding-top:0">
+      <p>© 2025–2026 <a href="https://example42.com" target="_blank" rel="noopener">example42</a> · Apache 2.0 License</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="https://github.com/example42/pabawi" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
