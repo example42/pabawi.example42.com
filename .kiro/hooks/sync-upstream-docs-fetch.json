@@ -1,0 +1,12 @@
+{
+  "name": "Fetch Upstream Docs",
+  "version": "1.0.0",
+  "description": "Downloads the latest markdown documentation from github.com/example42/pabawi into docs/upstream/. Run this first, then trigger 'Sync Pabawi Docs' to update docs.html.",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "bash scripts/sync-upstream-docs.sh"
+  }
+}

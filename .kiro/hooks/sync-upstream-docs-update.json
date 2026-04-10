@@ -1,0 +1,12 @@
+{
+  "name": "Sync Pabawi Docs",
+  "version": "1.0.0",
+  "description": "After fetching upstream docs (via 'Fetch Upstream Docs' hook), this reads the markdown files in docs/upstream/ and updates docs.html to reflect the latest upstream documentation content, preserving the site's HTML structure and styling.",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "The upstream Pabawi documentation has been fetched into docs/upstream/. Your job is to update docs.html so its content matches the upstream docs.\n\nWorkflow:\n1. Read docs/upstream/.sync-manifest.json to see what was fetched and when.\n2. Read the key upstream doc files: docs/upstream/configuration.md, docs/upstream/user-guide.md, docs/upstream/troubleshooting.md, docs/upstream/docker-deployment.md, docs/upstream/api.md, and the integration files in docs/upstream/integrations/.\n3. Compare the upstream content with the current docs.html sections.\n4. Update docs.html sections that are outdated — add new sections for new content, update existing sections where the upstream has changed (new env vars, new features, changed defaults, new integrations, etc.), and remove sections that no longer exist upstream.\n5. Preserve the existing HTML structure, CSS classes, and styling conventions (docs-section, docs-table, docs-code, docs-callout, etc.). Match the existing visual style exactly.\n6. If the upstream docs mention new sidebar sections, add them to the docs-sidebar nav as well.\n7. Do NOT change index.html or about.html — only docs.html.\n8. After updating, briefly summarize what changed.\n\nIMPORTANT: The upstream markdown is the source of truth. The website docs.html should reflect it accurately."
+  }
+}

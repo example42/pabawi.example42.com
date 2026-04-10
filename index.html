@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="logo.png" type="image/png" />
 </head>
 <body>
 
@@ -20,15 +20,7 @@
 <nav class="nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <rect width="28" height="28" rx="7" fill="url(#lg)"/>
-        <path d="M7 14l5 5 9-9" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <defs>
-          <linearGradient id="lg" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#6366f1"/><stop offset="1" stop-color="#22d3ee"/>
-          </linearGradient>
-        </defs>
-      </svg>
+      <img src="logo.png" width="28" height="28" alt="Pabawi logo" style="border-radius:4px;" />
       Pabawi
     </a>
     <ul class="nav-links">
@@ -81,32 +73,9 @@
         </div>
       </div>
 
-      <!-- Right — terminal mockup -->
-      <div class="hero-visual fade-up delay-2">
-        <div class="hero-terminal">
-          <div class="terminal-bar">
-            <span class="dot dot-red"></span>
-            <span class="dot dot-yellow"></span>
-            <span class="dot dot-green"></span>
-            <span class="terminal-title">pabawi — command execution</span>
-          </div>
-          <div class="terminal-body">
-            <div><span class="t-prompt">❯ </span><span class="t-cmd">pabawi inventory</span></div>
-            <div><span class="t-out">Fetching from 6 sources</span> <span class="t-dim">[bolt, puppetdb, ansible, ssh, proxmox, aws]</span></div>
-            <div>&nbsp;</div>
-            <div><span class="t-label">NODES  </span><span class="t-success">●</span> <span class="t-node">web01.prod</span>       <span class="t-dim">ssh · 192.168.1.10</span></div>
-            <div><span class="t-label">       </span><span class="t-success">●</span> <span class="t-node">db01.prod</span>        <span class="t-dim">puppet · 192.168.1.20</span></div>
-            <div><span class="t-label">       </span><span class="t-success">●</span> <span class="t-node">proxmox:pve1:101</span> <span class="t-dim">proxmox · running</span></div>
-            <div><span class="t-label">       </span><span class="t-success">●</span> <span class="t-node">aws:us-east-1:i-0a1</span> <span class="t-dim">ec2 · t3.medium</span></div>
-            <div><span class="t-label">       </span><span class="t-warn">◉</span> <span class="t-node">legacy03</span>         <span class="t-dim">ssh · 10.0.0.9</span></div>
-            <div>&nbsp;</div>
-            <div><span class="t-prompt">❯ </span><span class="t-cmd">pabawi exec "uptime" --targets web01.prod,db01.prod</span></div>
-            <div><span class="t-success">✓ web01.prod</span><span class="t-dim">  up 42 days, 3:21,  load avg: 0.12</span></div>
-            <div><span class="t-success">✓ db01.prod &nbsp;</span><span class="t-dim"> up 18 days, 11:04, load avg: 0.05</span></div>
-            <div>&nbsp;</div>
-            <div class="t-last-line"><span class="t-prompt">❯ </span><span class="t-dim">_</span></div>
-          </div>
-        </div>
+      <!-- Right — logo -->
+      <div class="hero-visual fade-up delay-2" style="display:flex;align-items:center;justify-content:center">
+        <img src="logo.png" alt="Pabawi logo" style="max-width:100%;width:420px;height:auto;border-radius:12px;" />
       </div>
     </div>
   </div>
@@ -584,11 +553,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="index.html" class="nav-logo" style="font-size:1.1rem">
-          <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
-            <rect width="28" height="28" rx="7" fill="url(#lg2)"/>
-            <path d="M7 14l5 5 9-9" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <defs><linearGradient id="lg2" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs>
-          </svg>
+          <img src="logo.png" width="24" height="24" alt="Pabawi logo" style="border-radius:3px;" />
           Pabawi
         </a>
         <p>Classic Infrastructures Command &amp; Control Awesomeness. Open source, self-hosted, Apache 2.0.</p>
