@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pabawi — Classic Infrastructures Command &amp; Control</title>
-  <meta name="description" content="Pabawi is a unified web interface for infrastructure management, command execution, and VM provisioning — integrating Puppet, Bolt, Ansible, SSH, Proxmox, AWS and more." />
+  <meta name="description" content="Pabawi is a unified web interface for infrastructure management, command execution, and VM provisioning — integrating Puppet, Bolt, Ansible, SSH, Proxmox, AWS, Azure and more." />
   <meta property="og:title" content="Pabawi — Classic Infrastructures Command & Control" />
-  <meta property="og:description" content="A unified web interface for managing classic infrastructure: Puppet, Bolt, Ansible, PuppetDB, Hiera, SSH, Proxmox and AWS in one place." />
+  <meta property="og:description" content="A unified web interface for managing classic infrastructure: Puppet, Bolt, Ansible, PuppetDB, Hiera, SSH, Proxmox, AWS and Azure in one place." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -47,14 +47,14 @@
       <div>
         <div class="hero-badge fade-up">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><circle cx="6" cy="6" r="6"/></svg>
-          v1.0 · Apache 2.0 · Open Source
+          v1.2 · Apache 2.0 · Open Source
         </div>
         <h1 class="hero-title fade-up delay-1">
           Classic Infra<br/>
           <span class="gradient-text">Command &amp; Control</span>
         </h1>
         <p class="hero-desc fade-up delay-2">
-          Pabawi is a unified web interface for infrastructure management, inventory discovery, remote execution, and VM provisioning — bringing Puppet, Bolt, Ansible, PuppetDB, Hiera, SSH, Proxmox, and AWS together in one polished dashboard.
+          Pabawi is a unified web interface for infrastructure management, inventory discovery, remote execution, and VM provisioning — bringing Puppet, Bolt, Ansible, PuppetDB, Hiera, SSH, Proxmox, AWS, and Azure together in one polished dashboard.
         </p>
         <div class="hero-actions fade-up delay-3">
           <a href="docs.html#quickstart" class="btn btn-primary">
@@ -67,8 +67,8 @@
           </a>
         </div>
         <div class="hero-stat-row fade-up delay-4">
-          <div class="hero-stat"><div class="num">8+</div><div class="lbl">Integrations</div></div>
-          <div class="hero-stat"><div class="num">1.0</div><div class="lbl">Latest</div></div>
+          <div class="hero-stat"><div class="num">10+</div><div class="lbl">Integrations</div></div>
+          <div class="hero-stat"><div class="num">1.2</div><div class="lbl">Latest</div></div>
           <div class="hero-stat"><div class="num">∞</div><div class="lbl">Nodes</div></div>
           <div class="hero-stat"><div class="num">Free</div><div class="lbl">Apache 2.0</div></div>
         </div>
@@ -96,6 +96,8 @@
       <span class="integration-chip"><span class="chip-dot" style="background:#94a3b8"></span> SSH</span>
       <span class="integration-chip"><span class="chip-dot" style="background:#fb923c"></span> Proxmox</span>
       <span class="integration-chip"><span class="chip-dot" style="background:#f59e0b"></span> AWS EC2</span>
+      <span class="integration-chip"><span class="chip-dot" style="background:#0ea5e9"></span> Azure</span>
+      <span class="integration-chip"><span class="chip-dot" style="background:#818cf8"></span> MCP</span>
     </div>
   </div>
 </div>
@@ -193,6 +195,20 @@
         <div class="feature-icon" style="background:rgba(245,158,11,.12)">☁️</div>
         <h3>AWS EC2 Management</h3>
         <p>Discover, provision, and manage EC2 instances across multiple regions. Start, stop, reboot, and terminate instances alongside on-prem infrastructure — hybrid fleet in one view.</p>
+      </div>
+
+      <div class="feature-card" style="border-color:rgba(14,165,233,.25);position:relative">
+        <div style="position:absolute;top:.9rem;right:.9rem;background:rgba(14,165,233,.12);border:1px solid rgba(14,165,233,.3);color:#0ea5e9;font-size:.68rem;font-weight:700;padding:.15rem .5rem;border-radius:100px;text-transform:uppercase;letter-spacing:.05em">v1.1</div>
+        <div class="feature-icon" style="background:rgba(14,165,233,.12)">🔷</div>
+        <h3>Azure VM Management</h3>
+        <p>Discover, provision, and manage Azure Virtual Machines across subscriptions and resource groups. Full lifecycle control — start, stop, deallocate, and terminate — alongside your on-prem and AWS fleet.</p>
+      </div>
+
+      <div class="feature-card" style="border-color:rgba(129,140,248,.25);position:relative">
+        <div style="position:absolute;top:.9rem;right:.9rem;background:rgba(129,140,248,.12);border:1px solid rgba(129,140,248,.3);color:#818cf8;font-size:.68rem;font-weight:700;padding:.15rem .5rem;border-radius:100px;text-transform:uppercase;letter-spacing:.05em">v1.2</div>
+        <div class="feature-icon" style="background:rgba(129,140,248,.12)">🤖</div>
+        <h3>MCP Server (AI Integration)</h3>
+        <p>Built-in Model Context Protocol server exposes your infrastructure data to LLM clients. Query inventory, facts, reports, catalogs, and Hiera data from AI assistants — read-only, RBAC-gated, and secure by default.</p>
       </div>
 
       <div class="feature-card" style="border-color:rgba(52,211,153,.25);position:relative">
@@ -458,19 +474,31 @@
     <h2 class="section-heading">What's been shipped &amp; what's next</h2>
     <p class="section-sub">Pabawi is actively developed. v1.0 is the current stable release — here's the full picture of what's shipped and what's coming.</p>
 
-    <!-- v1.0 released banner -->
+    <!-- v1.2 released banner -->
     <div style="margin:2.5rem 0 2rem;background:linear-gradient(135deg,rgba(52,211,153,.10) 0%,rgba(34,211,238,.06) 100%);border:1px solid rgba(52,211,153,.3);border-radius:var(--radius-lg);padding:1.75rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap">
       <div>
         <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem">
           <span style="background:rgba(52,211,153,.15);border:1px solid rgba(52,211,153,.4);color:var(--green);font-size:.75rem;font-weight:700;padding:.2rem .7rem;border-radius:100px;text-transform:uppercase;letter-spacing:.06em">Released</span>
-          <span style="color:var(--text);font-weight:800;font-size:1.15rem">v1.0.0 — Now Available</span>
+          <span style="color:var(--text);font-weight:800;font-size:1.15rem">v1.2.0 — Now Available</span>
         </div>
-        <p style="margin:0;font-size:.93rem;max-width:580px">Consolidates Proxmox &amp; AWS provisioning, the Integration Status Dashboard, in-browser Setup Wizards, and <code style="background:rgba(255,255,255,.08);padding:.1em .35em;border-radius:4px;font-size:.88em">.env</code> as the single source of truth for all configuration.</p>
+        <p style="margin:0;font-size:.93rem;max-width:580px">Built-in MCP server for AI-powered infrastructure queries, Azure VM provisioning, plus all previous v1.0 and v1.1 features including the Integration Status Dashboard, Setup Wizards, and AWS/Proxmox management.</p>
       </div>
       <a href="https://github.com/example42/pabawi/blob/main/CHANGELOG.md" target="_blank" rel="noopener" class="btn btn-outline" style="flex-shrink:0;white-space:nowrap">View Changelog ↗</a>
     </div>
 
     <div class="roadmap-grid">
+
+      <div class="roadmap-card">
+        <span class="roadmap-status status-done">✓ Released v1.2</span>
+        <h3>MCP Server (AI Integration)</h3>
+        <p>Built-in Model Context Protocol server exposes infrastructure data to LLM clients — inventory, facts, reports, catalogs, Hiera, and execution history via read-only, RBAC-gated tools.</p>
+      </div>
+
+      <div class="roadmap-card">
+        <span class="roadmap-status status-done">✓ Released v1.1</span>
+        <h3>Azure VM Integration</h3>
+        <p>Full Azure Virtual Machine lifecycle management — discover, provision, start, stop, deallocate, and terminate VMs across subscriptions and resource groups.</p>
+      </div>
 
       <div class="roadmap-card">
         <span class="roadmap-status status-done">✓ Released v1.0</span>

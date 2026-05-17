@@ -20,22 +20,25 @@ README_URL="${BASE_URL}/README.md"
 
 # Upstream doc files to fetch (relative to repo root)
 DOC_FILES=(
-  "docs/configuration.md"
-  "docs/user-guide.md"
-  "docs/troubleshooting.md"
-  "docs/docker-deployment.md"
   "docs/api.md"
-  "docs/api-endpoints-reference.md"
-  "docs/integrations-api.md"
   "docs/architecture.md"
-  "docs/description.md"
+  "docs/configuration.md"
   "docs/development.md"
-  "docs/kubernetes-deployment.md"
+  "docs/mcp.md"
+  "docs/openapi.yaml"
+  "docs/permissions-rbac.md"
+  "docs/troubleshooting.md"
+  "docs/user-guide.md"
+  "docs/deployment/docker.md"
+  "docs/deployment/kubernetes.md"
+  "docs/integrations/ansible.md"
+  "docs/integrations/aws.md"
+  "docs/integrations/azure.md"
   "docs/integrations/bolt.md"
+  "docs/integrations/hiera.md"
+  "docs/integrations/proxmox.md"
   "docs/integrations/puppetdb.md"
   "docs/integrations/puppetserver.md"
-  "docs/integrations/hiera.md"
-  "docs/integrations/ansible.md"
   "docs/integrations/ssh.md"
 )
 
@@ -43,7 +46,7 @@ echo "==> Syncing upstream docs from ${REPO}@${BRANCH}"
 echo ""
 
 # Create destination directories
-mkdir -p "${DEST}/integrations"
+mkdir -p "${DEST}/deployment" "${DEST}/integrations"
 
 # Fetch README
 echo "  Fetching README.md ..."

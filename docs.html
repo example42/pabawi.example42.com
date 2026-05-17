@@ -45,6 +45,7 @@
       <li><a href="#prerequisites">Prerequisites</a></li>
       <li><a href="#manual-setup">Manual Setup</a></li>
       <li><a href="#docker">Docker Deployment</a></li>
+      <li><a href="#kubernetes">Kubernetes</a></li>
     </ul>
 
     <h4>Configuration</h4>
@@ -65,6 +66,7 @@
       <li><a href="#ssh">SSH</a></li>
       <li><a href="#proxmox">Proxmox</a></li>
       <li><a href="#aws">AWS EC2</a></li>
+      <li><a href="#azure">Azure</a></li>
     </ul>
 
     <h4>Using Pabawi</h4>
@@ -83,6 +85,7 @@
     <h4>Reference</h4>
     <ul>
       <li><a href="#api">API Reference</a></li>
+      <li><a href="#mcp">MCP Server</a></li>
       <li><a href="#env-vars">Environment Variables</a></li>
       <li><a href="#troubleshooting">Troubleshooting</a></li>
     </ul>
@@ -208,6 +211,70 @@
       </div>
     </div>
 
+    <!-- ===== KUBERNETES ===== -->
+    <div class="docs-section" id="kubernetes">
+      <h2>Kubernetes Deployment</h2>
+      <p>Pabawi can be deployed to Kubernetes. Since it uses SQLite, <strong>only a single replica is supported</strong> — multiple replicas will cause database locking.</p>
+
+      <div class="docs-callout warn">
+        <p><strong>Important:</strong> Set <code class="inline">replicas: 1</code> in your Deployment spec. For HA, you would need an external database backend (not currently supported).</p>
+      </div>
+
+      <h3>Deployment Manifest</h3>
+      <div class="docs-code">
+        <div class="code-header" style="display:flex;justify-content:space-between;padding:.5rem 1rem;background:rgba(31,41,55,.6);border-bottom:1px solid var(--border);">
+          <span class="code-lang">yaml</span><button class="copy-btn">Copy</button>
+        </div>
+        <pre>
+<span class="c-key">apiVersion</span>: apps/v1
+<span class="c-key">kind</span>: Deployment
+<span class="c-key">metadata</span>:
+  <span class="c-key">name</span>: pabawi
+<span class="c-key">spec</span>:
+  <span class="c-key">replicas</span>: <span class="c-val">1</span>
+  <span class="c-key">selector</span>:
+    <span class="c-key">matchLabels</span>:
+      <span class="c-key">app</span>: pabawi
+  <span class="c-key">template</span>:
+    <span class="c-key">spec</span>:
+      <span class="c-key">securityContext</span>:
+        <span class="c-key">runAsUser</span>: <span class="c-val">1001</span>
+        <span class="c-key">fsGroup</span>: <span class="c-val">1001</span>
+      <span class="c-key">containers</span>:
+      - <span class="c-key">name</span>: pabawi
+        <span class="c-key">image</span>: example42/pabawi:latest
+        <span class="c-key">ports</span>:
+        - <span class="c-key">containerPort</span>: <span class="c-val">3000</span>
+        <span class="c-key">envFrom</span>:
+        - <span class="c-key">configMapRef</span>:
+            <span class="c-key">name</span>: pabawi-config
+        - <span class="c-key">secretRef</span>:
+            <span class="c-key">name</span>: pabawi-secrets
+        <span class="c-key">livenessProbe</span>:
+          <span class="c-key">httpGet</span>:
+            <span class="c-key">path</span>: /api/health
+            <span class="c-key">port</span>: <span class="c-val">3000</span>
+          <span class="c-key">initialDelaySeconds</span>: <span class="c-val">30</span>
+        <span class="c-key">resources</span>:
+          <span class="c-key">requests</span>:
+            <span class="c-key">memory</span>: <span class="c-val">"256Mi"</span>
+            <span class="c-key">cpu</span>: <span class="c-val">"100m"</span>
+          <span class="c-key">limits</span>:
+            <span class="c-key">memory</span>: <span class="c-val">"512Mi"</span>
+            <span class="c-key">cpu</span>: <span class="c-val">"500m"</span></pre>
+      </div>
+
+      <p>Key considerations:</p>
+      <ul>
+        <li>Use a <code class="inline">PersistentVolumeClaim</code> (ReadWriteOnce) for the SQLite database at <code class="inline">/opt/pabawi/data</code></li>
+        <li>Store SSL certs and SSH keys as Kubernetes Secrets mounted read-only</li>
+        <li>Use a ConfigMap for non-sensitive env vars and a Secret for credentials</li>
+        <li>Health check endpoint: <code class="inline">GET /api/health</code> on port 3000</li>
+      </ul>
+
+      <p>See the full Kubernetes manifests (ConfigMap, PVC, Service, Deployment) in the <a href="https://github.com/example42/pabawi/blob/main/docs/deployment/kubernetes.md" target="_blank" rel="noopener">upstream deployment guide</a>.</p>
+    </div>
+
     <!-- ===== CONFIGURATION ===== -->
     <div class="docs-section" id="configuration">
       <h2>Configuration</h2>
@@ -267,8 +334,9 @@
           <tr><td>PuppetDB</td><td>10</td><td>—</td><td>✓</td><td>—</td></tr>
           <tr><td>Ansible</td><td>8</td><td>✓</td><td>✓</td><td>—</td></tr>
           <tr><td>Hiera</td><td>6</td><td>—</td><td>—</td><td>—</td></tr>
-          <tr><td>Proxmox</td><td>—</td><td>—</td><td>✓</td><td>✓ VMs &amp; LXC</td></tr>
-          <tr><td>AWS</td><td>—</td><td>—</td><td>✓</td><td>✓ EC2</td></tr>
+          <tr><td>Proxmox</td><td>7</td><td>—</td><td>✓</td><td>✓ VMs &amp; LXC</td></tr>
+          <tr><td>AWS</td><td>7</td><td>—</td><td>✓</td><td>✓ EC2</td></tr>
+          <tr><td>Azure</td><td>7</td><td>—</td><td>✓</td><td>✓ VMs</td></tr>
         </tbody>
       </table>
     </div>
@@ -461,6 +529,43 @@ sts:GetCallerIdentity</pre>
       </div>
     </div>
 
+    <div class="docs-section" id="azure">
+      <h2>Azure Integration <span style="font-size:.72rem;background:rgba(0,120,212,.15);border:1px solid rgba(0,120,212,.35);color:#0078D4;padding:.15rem .55rem;border-radius:100px;vertical-align:middle;font-weight:700;letter-spacing:.04em">v1.1+</span></h2>
+      <p>Azure integration discovers Virtual Machines across resource groups, manages their lifecycle (start/stop/restart/deallocate), and provisions new instances.</p>
+
+      <h3>Authentication</h3>
+      <p>Three methods are supported via <code class="inline">DefaultAzureCredential</code>: Service Principal (recommended for production), Managed Identity (Azure-hosted Pabawi), or Azure CLI login (development).</p>
+
+      <table class="docs-table">
+        <thead><tr><th>Variable</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>AZURE_ENABLED</td><td>true / false</td></tr>
+          <tr><td>AZURE_SUBSCRIPTION_ID</td><td><strong>Required.</strong> Azure subscription ID</td></tr>
+          <tr><td>AZURE_TENANT_ID</td><td>Azure AD tenant ID (for Service Principal)</td></tr>
+          <tr><td>AZURE_CLIENT_ID</td><td>App registration client ID</td></tr>
+          <tr><td>AZURE_CLIENT_SECRET</td><td>Client secret value</td></tr>
+          <tr><td>AZURE_RESOURCE_GROUPS</td><td>Comma-separated resource groups to scope inventory (optional — all if omitted)</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Required Permissions</h3>
+      <p>Assign the built-in <strong>Virtual Machine Contributor</strong> role to the Service Principal or Managed Identity, scoped to the subscription or target resource groups.</p>
+
+      <h3>Capabilities</h3>
+      <ul>
+        <li><strong>Inventory</strong> — VMs across all configured resource groups (or entire subscription)</li>
+        <li><strong>Grouping</strong> — by location, resource group, or tags (Environment, Project, Team)</li>
+        <li><strong>Lifecycle</strong> — start, stop, restart VMs</li>
+        <li><strong>Provisioning</strong> — create new VMs with image, size, networking, and auth configuration</li>
+        <li><strong>Deallocate</strong> — release compute resources — blocked unless <code class="inline">ALLOW_DESTRUCTIVE_PROVISIONING=true</code></li>
+        <li><strong>Resource Discovery</strong> — browse locations, VM sizes, marketplace images, and resource groups</li>
+      </ul>
+
+      <div class="docs-callout tip">
+        <p><strong>Tip:</strong> For Azure-hosted Pabawi, omit all credential env vars and assign a Managed Identity to the VM or App Service — <code class="inline">DefaultAzureCredential</code> picks it up automatically.</p>
+      </div>
+    </div>
+
     <!-- ===== USING PABAWI ===== -->
     <div class="docs-section" id="inventory">
       <h2>Inventory</h2>
@@ -489,20 +594,21 @@ sts:GetCallerIdentity</pre>
 
     <div class="docs-section" id="lifecycle">
       <h2>VM Lifecycle Management</h2>
-      <p>For Proxmox and AWS nodes, the node detail page includes a <strong>Manage tab</strong> with lifecycle controls. Available actions depend on the current resource state:</p>
+      <p>For Proxmox, AWS, and Azure nodes, the node detail page includes a <strong>Manage tab</strong> with lifecycle controls. Available actions depend on the current resource state:</p>
 
       <table class="docs-table">
         <thead><tr><th>State</th><th>Available Actions</th></tr></thead>
         <tbody>
-          <tr><td>stopped</td><td>Start, Destroy</td></tr>
-          <tr><td>running</td><td>Stop, Shutdown, Reboot, Suspend (VMs), Destroy</td></tr>
-          <tr><td>suspended</td><td>Resume, Destroy</td></tr>
+          <tr><td>stopped</td><td>Start, Destroy/Terminate</td></tr>
+          <tr><td>running</td><td>Stop, Shutdown, Reboot, Suspend (Proxmox VMs), Destroy/Terminate</td></tr>
+          <tr><td>suspended / deallocated</td><td>Resume/Start, Destroy/Terminate</td></tr>
         </tbody>
       </table>
 
       <ul>
-        <li>Destructive actions (Destroy, Terminate) require an explicit confirmation dialog</li>
-        <li>Each action requires the corresponding RBAC permission (e.g. <code class="inline">manage:vms</code>)</li>
+        <li>Destructive actions (Destroy, Terminate, Deallocate) require an explicit confirmation dialog</li>
+        <li>Destructive actions are blocked unless <code class="inline">ALLOW_DESTRUCTIVE_PROVISIONING=true</code> is set</li>
+        <li>Each action requires the corresponding RBAC permission (e.g. <code class="inline">proxmox:lifecycle:start</code>)</li>
         <li>All lifecycle actions are recorded in the Node Journal and Execution History</li>
         <li>Real-time status updates are shown during the operation</li>
       </ul>
@@ -532,14 +638,45 @@ sts:GetCallerIdentity</pre>
 
     <div class="docs-section" id="rbac">
       <h2>RBAC &amp; Permissions</h2>
-      <p>Pabawi includes a full role-based access control system:</p>
+      <p>Pabawi includes a full role-based access control system when <code class="inline">AUTH_ENABLED=true</code>:</p>
       <ul>
         <li><strong>Users</strong> — individual accounts with JWT authentication</li>
-        <li><strong>Roles</strong> — named sets of permissions (e.g. <em>operator</em>, <em>viewer</em>, <em>admin</em>)</li>
+        <li><strong>Roles</strong> — named sets of permissions (e.g. <em>Administrator</em>, <em>Operator</em>, <em>Viewer</em>)</li>
         <li><strong>Groups</strong> — users grouped for easier role assignment</li>
-        <li><strong>Permissions</strong> — granular: <code class="inline">execute:commands</code>, <code class="inline">read:inventory</code>, <code class="inline">manage:users</code>, etc.</li>
+        <li><strong>Permissions</strong> — granular format: <code class="inline">&lt;integration&gt;:&lt;category&gt;:&lt;action&gt;</code></li>
       </ul>
+
+      <h3>Built-in Roles</h3>
+      <table class="docs-table">
+        <thead><tr><th>Role</th><th>Access Level</th></tr></thead>
+        <tbody>
+          <tr><td>Administrator</td><td>Full access (<code class="inline">*:*:*</code>)</td></tr>
+          <tr><td>Operator</td><td>Read + execute + lifecycle (no destroy, no config)</td></tr>
+          <tr><td>Viewer</td><td>Read-only access to all integrations</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Permission Examples</h3>
+      <table class="docs-table">
+        <thead><tr><th>Permission</th><th>Grants</th></tr></thead>
+        <tbody>
+          <tr><td><code class="inline">proxmox:provision:create_vm</code></td><td>Create VMs in Proxmox</td></tr>
+          <tr><td><code class="inline">proxmox:lifecycle:start</code></td><td>Start Proxmox VMs/containers</td></tr>
+          <tr><td><code class="inline">aws:lifecycle:*</code></td><td>All lifecycle actions on AWS</td></tr>
+          <tr><td><code class="inline">bolt/execute</code></td><td>Execute Bolt tasks and commands</td></tr>
+          <tr><td><code class="inline">ssh/execute</code></td><td>Execute SSH commands</td></tr>
+          <tr><td><code class="inline">*:inventory:read</code></td><td>View node inventory from all sources</td></tr>
+        </tbody>
+      </table>
+
+      <h3>UI Visibility</h3>
+      <p>Pabawi hides UI elements the current user lacks permission for — the Manage tab, Provision tab, Start/Stop/Destroy buttons, and Setup menu are all gated by the corresponding permissions.</p>
+
       <p>The default admin account is created on first start using <code class="inline">DEFAULT_ADMIN_USERNAME</code> and <code class="inline">DEFAULT_ADMIN_PASSWORD</code>. Change the password immediately after first login.</p>
+
+      <div class="docs-callout">
+        <p><strong>Note:</strong> Destructive actions (Destroy, Terminate, Deallocate) additionally require <code class="inline">ALLOW_DESTRUCTIVE_PROVISIONING=true</code> in <code class="inline">.env</code> — the permission alone is not sufficient.</p>
+      </div>
     </div>
 
     <div class="docs-section" id="status-dashboard">
@@ -627,6 +764,61 @@ sts:GetCallerIdentity</pre>
       </table>
     </div>
 
+    <!-- ===== MCP SERVER ===== -->
+    <div class="docs-section" id="mcp">
+      <h2>MCP Server <span style="font-size:.72rem;background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.3);color:var(--brand-light);padding:.15rem .55rem;border-radius:100px;vertical-align:middle;font-weight:700;letter-spacing:.04em">v1.1+</span></h2>
+      <p>Pabawi includes an embedded <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">Model Context Protocol</a> (MCP) server that exposes read-only infrastructure tools over Streamable HTTP. This lets AI assistants (Claude Desktop, Kiro, Cursor, Gemini CLI, Codex CLI) query your infrastructure data directly.</p>
+
+      <h3>Enabling</h3>
+      <div class="docs-code">
+        <pre>
+<span class="c-key">MCP_ENABLED</span>=<span class="c-val">true</span>
+<span class="c-key">MCP_AUTH_TOKEN</span>=<span class="c-val">your-secure-random-token</span>  <span class="c-cmt"># openssl rand -hex 32</span></pre>
+      </div>
+      <p>The MCP endpoint is available at <code class="inline">POST http://&lt;host&gt;:&lt;port&gt;/mcp</code>. Authentication uses either the static <code class="inline">MCP_AUTH_TOKEN</code> or a valid JWT from <code class="inline">POST /api/auth/login</code>.</p>
+
+      <h3>Client Configuration</h3>
+      <p>Add to your MCP client config (Claude Desktop, Kiro, Cursor, etc.):</p>
+      <div class="docs-code">
+        <div class="code-header" style="display:flex;justify-content:space-between;padding:.5rem 1rem;background:rgba(31,41,55,.6);border-bottom:1px solid var(--border);">
+          <span class="code-lang">json</span><button class="copy-btn">Copy</button>
+        </div>
+        <pre>
+{
+  "mcpServers": {
+    "pabawi": {
+      "url": "http://localhost:3000/mcp",
+      "headers": {
+        "Authorization": "Bearer &lt;MCP_AUTH_TOKEN&gt;"
+      }
+    }
+  }
+}</pre>
+      </div>
+
+      <h3>Available Tools</h3>
+      <table class="docs-table">
+        <thead><tr><th>Tool</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>inventory_list</td><td>List nodes from all active integrations (optional <code class="inline">search</code> filter)</td></tr>
+          <tr><td>facts_get</td><td>Get system facts for a specific node</td></tr>
+          <tr><td>facts_bulk</td><td>Get specific facts across all nodes in one query</td></tr>
+          <tr><td>reports_query</td><td>Query Puppet run reports (filter by node, status, limit)</td></tr>
+          <tr><td>catalogs_get</td><td>Get compiled Puppet catalog for a node</td></tr>
+          <tr><td>hiera_lookup</td><td>Resolve a Hiera key for a node with fact-based hierarchy</td></tr>
+          <tr><td>executions_list</td><td>List execution history (filter by status, tool, limit)</td></tr>
+          <tr><td>integrations_list</td><td>List integrations and their health status</td></tr>
+          <tr><td>journal_query</td><td>Search journal entries (filter by node, event type)</td></tr>
+        </tbody>
+      </table>
+
+      <p>All tools are read-only and gated by the RBAC permission system. A dedicated <code class="inline">mcp-service</code> user with an <code class="inline">MCP Service</code> role (all read permissions) is auto-provisioned at startup.</p>
+
+      <div class="docs-callout tip">
+        <p><strong>Tip:</strong> Once connected, ask your AI assistant things like "List all nodes", "Show me failed Puppet reports", "What OS is web-01 running?", or "Look up the ntp::servers Hiera key in production".</p>
+      </div>
+    </div>
+
     <!-- ===== ENV VARS ===== -->
     <div class="docs-section" id="env-vars">
       <h2>Environment Variables</h2>
@@ -694,7 +886,22 @@ sts:GetCallerIdentity</pre>
 <span class="c-key">AWS_ACCESS_KEY_ID</span>=<span class="c-val">AKIAIOSFODNN7EXAMPLE</span>
 <span class="c-key">AWS_SECRET_ACCESS_KEY</span>=<span class="c-val">wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY</span>
 <span class="c-key">AWS_DEFAULT_REGION</span>=<span class="c-val">us-east-1</span>
-<span class="c-key">AWS_REGIONS</span>=<span class="c-val">["us-east-1","eu-west-1"]</span></pre>
+<span class="c-key">AWS_REGIONS</span>=<span class="c-val">["us-east-1","eu-west-1"]</span>
+
+<span class="c-cmt"># ── Azure ─────────────────────────────────────────</span>
+<span class="c-key">AZURE_ENABLED</span>=<span class="c-val">false</span>
+<span class="c-key">AZURE_SUBSCRIPTION_ID</span>=<span class="c-val">12345678-abcd-efgh-ijkl-123456789012</span>
+<span class="c-key">AZURE_TENANT_ID</span>=<span class="c-val">12345678-abcd-efgh-ijkl-123456789012</span>
+<span class="c-key">AZURE_CLIENT_ID</span>=<span class="c-val">12345678-abcd-efgh-ijkl-123456789012</span>
+<span class="c-key">AZURE_CLIENT_SECRET</span>=<span class="c-val">your-client-secret</span>
+<span class="c-key">AZURE_RESOURCE_GROUPS</span>=<span class="c-val">my-rg-1,my-rg-2</span>
+
+<span class="c-cmt"># ── MCP Server ────────────────────────────────────</span>
+<span class="c-key">MCP_ENABLED</span>=<span class="c-val">false</span>
+<span class="c-key">MCP_AUTH_TOKEN</span>=<span class="c-val">your-mcp-token-here</span>
+
+<span class="c-cmt"># ── Safety ────────────────────────────────────────</span>
+<span class="c-key">ALLOW_DESTRUCTIVE_PROVISIONING</span>=<span class="c-val">false</span></pre>
       </div>
     </div>
 
@@ -718,6 +925,29 @@ sts:GetCallerIdentity</pre>
 
       <h3>Docker permission errors</h3>
       <p>Use <code class="inline">--user "$(id -u):1001"</code> to run the container as your user (group 1001 is the node user inside the container). Ensure mounted volumes are owned by that UID.</p>
+
+      <h3>Azure authentication fails</h3>
+      <ul>
+        <li>Verify <code class="inline">AZURE_SUBSCRIPTION_ID</code> is set (required when <code class="inline">AZURE_ENABLED=true</code>)</li>
+        <li>For Service Principal: check <code class="inline">AZURE_TENANT_ID</code>, <code class="inline">AZURE_CLIENT_ID</code>, <code class="inline">AZURE_CLIENT_SECRET</code></li>
+        <li>For Managed Identity: verify the identity is assigned to the VM/App Service</li>
+        <li>For CLI auth: run <code class="inline">az login</code> before starting Pabawi</li>
+        <li>Check that the identity has <strong>Virtual Machine Contributor</strong> role on the subscription or resource groups</li>
+      </ul>
+
+      <h3>MCP endpoint not responding</h3>
+      <ul>
+        <li>Verify <code class="inline">MCP_ENABLED=true</code> is set and the backend was restarted</li>
+        <li>Check logs for "MCP server initialized" message</li>
+        <li>If getting 401: verify the <code class="inline">Authorization: Bearer &lt;token&gt;</code> header matches <code class="inline">MCP_AUTH_TOKEN</code> exactly</li>
+        <li>If tools return permission errors: add the missing permission to the <code class="inline">MCP Service</code> role via Role Management</li>
+      </ul>
+
+      <h3>Destroy/Terminate actions blocked (403)</h3>
+      <p>Destructive provisioning actions return <code class="inline">403 DESTRUCTIVE_ACTION_DISABLED</code> by default. Set <code class="inline">ALLOW_DESTRUCTIVE_PROVISIONING=true</code> in <code class="inline">.env</code> to enable them. This is a deliberate safety guard.</p>
+
+      <h3>Database locked</h3>
+      <p>Pabawi uses SQLite — only one process may write at a time. Kill duplicate instances. In Kubernetes, ensure <code class="inline">replicas: 1</code>.</p>
 
       <div class="docs-callout">
         <p><strong>Still stuck?</strong> Open a <a href="https://github.com/example42/pabawi/issues" target="_blank" rel="noopener">GitHub issue</a> with your Pabawi version, sanitized config, reproduction steps, and the error from <code class="inline">LOG_LEVEL=debug</code> output.</p>
