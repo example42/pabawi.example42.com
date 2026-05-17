@@ -1,0 +1,10 @@
+/* TEAM */
+Name: example42
+Site: https://example42.com
+GitHub: https://github.com/example42
+
+/* SITE */
+Software: Pabawi
+Version: 1.2.0
+License: Apache 2.0
+Standards: HTML5, CSS3, JavaScript

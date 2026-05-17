@@ -1,0 +1,6 @@
+# https://pabawi.example42.com/robots.txt
+
+User-agent: *
+Allow: /
+
+Sitemap: https://pabawi.example42.com/sitemap.xml

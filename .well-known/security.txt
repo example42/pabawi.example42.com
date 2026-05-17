@@ -1,0 +1,5 @@
+# https://pabawi.example42.com/.well-known/security.txt
+Contact: https://github.com/example42/pabawi/security/advisories
+Preferred-Languages: en
+Canonical: https://pabawi.example42.com/.well-known/security.txt
+Policy: https://github.com/example42/pabawi/security/policy
